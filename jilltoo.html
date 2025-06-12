@@ -1,0 +1,338 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <title>질투의 반군성</title>
+  <link rel="icon" href="favicon.png" type="image/png">
+  <link href="https://fonts.googleapis.com/css2?family=Orbit&display=swap" rel="stylesheet">
+  <style>
+    @font-face {
+      font-family: 'BookkMyungjo-Bd';
+      src: url('https://fastly.jsdelivr.net/gh/projectnoonnu/noonfonts_2302@1.0/BookkMyungjo-Bd.woff2') format('woff2');
+      font-weight: 700;
+      font-style: normal;
+    }
+
+    html, body {
+      margin: 0;
+      font-family: 'BookkMyungjo-Bd', serif;
+      color: #fff;
+      background: url('42.jpg') center center no-repeat;
+      background-size: cover;
+      background-attachment: fixed;
+      word-break: keep-all;
+    }
+
+    .overlay {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100vh;
+      background-color: rgba(0, 0, 0, 0.4);
+      z-index: 0;
+    }
+
+    nav {
+      position: sticky;
+      top: 0;
+      z-index: 3000;
+      padding: 1.5rem 0;
+      background: linear-gradient(rgba(0,0,0,0.9), rgba(0,0,0,0.7), rgba(0,0,0,0.5), rgba(0,0,0,0.3), rgba(0,0,0,0.0));
+    }
+
+    .navbar-container {
+      width: 1000px;
+      margin: 0 auto;
+      padding: 0 2rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .logo a {
+      font-size: 1.5rem;
+      font-weight: 700;
+      color: #fff;
+      text-decoration: none;
+      letter-spacing: -0.5px;
+    }
+
+    .navbar {
+      display: flex;
+      gap: 2rem;
+      list-style: none;
+      padding: 0;
+      margin: 0;
+    }
+
+    .navbar a {
+      font-size: 1.5rem;
+      text-decoration: none;
+      color: #fff;
+      opacity: 1;
+      transition: opacity 0.3s ease;
+    }
+
+    body.index .navbar a:hover { opacity: 0.5; }
+    body.page .navbar a { opacity: 0.5; }
+    body.page .navbar a.active {
+      opacity: 1;
+      font-weight: 700;
+      pointer-events: none;
+    }
+
+    .toggle-btn {
+      position: fixed;
+      top: 5.5rem;
+      right: 1.5rem;
+      background: #fff;
+      color: #111;
+      border: none;
+      padding: 0.5rem 1rem 0.65rem 1rem;
+      font-size: 0.9rem;
+      cursor: pointer;
+      border-radius: 4px;
+      z-index: 2500;
+      font-family: 'Orbit', sans-serif;
+    }
+
+    .toggle-btn::after {
+      content: ' ▶';
+      font-size: 0.85rem;
+    }
+
+    .container {
+      display: flex;
+      position: relative;
+      z-index: 1;
+    }
+
+    .content {
+      flex: 1;
+      padding: 8vw 5vw;
+      box-sizing: border-box;
+      position: relative;
+      z-index: 1;
+    }
+
+    .wrap {
+      width: 900px;
+      margin: auto;
+      padding-bottom: 8vh;
+      position: relative;
+      z-index: 1;
+    }
+
+    .title {
+      font-size: clamp(2.5rem, 6vw, 5rem);
+      margin-bottom: 2rem;
+    }
+
+    .poem {
+      font-size: 2vw;
+      line-height: 1.7;
+      white-space: pre-line;
+      word-break: keep-all;
+    }
+
+    .info-panel {
+      position: fixed;
+      top: 0;
+      right: 0;
+      width: 400px;
+      height: 100vh;
+      background-color: rgba(34, 34, 34, 0.85);
+      backdrop-filter: blur(12px);
+      padding: 6rem 2rem 4rem;
+      box-sizing: border-box;
+      transform: translateX(100%);
+      transition: transform 0.4s ease;
+      overflow-y: auto;
+      z-index: 2000;
+      font-family: 'Orbit', sans-serif;
+      font-size: 1rem;
+      line-height: 1.8;
+      color: #fff;
+      background-image:
+        linear-gradient(rgba(255,255,255,0.05) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(255,255,255,0.05) 1px, transparent 1px);
+      background-size: 20px 20px;
+    }
+
+    .info-panel.open {
+      transform: translateX(0%);
+    }
+
+    .info-panel h2 {
+      font-size: 1.8rem;
+      margin-bottom: 1.2rem;
+      font-family: 'BookkMyungjo-Bd', serif;
+    }
+
+    .section-title {
+      font-size: 1rem;
+      margin-top: 2rem;
+      margin-bottom: 0.6rem;
+      font-weight: bold;
+      color: #ccc;
+    }
+
+    .keywords {
+      display: flex;
+      gap: 0.5rem;
+      flex-wrap: wrap;
+      margin-bottom: 2rem;
+    }
+
+    .keyword {
+      background-color: #444;
+      padding: 0.4rem 0.8rem;
+      border-radius: 16px;
+      font-size: 0.85rem;
+      color: #eee;
+    }
+
+    .info-panel a {
+      color: #4fc3f7;
+      text-decoration: none;
+    }
+
+    .info-panel a:hover {
+      text-decoration: underline;
+    }
+
+    .sticky-tip {
+      position: sticky;
+      bottom: 3rem;
+      top: 1rem;
+      z-index: 9999;
+      text-align: center;
+      color: #fff;
+      background: rgba(0, 0, 0, 0.6);
+      font-family: 'Orbit', sans-serif;
+      font-size: 0.9rem;
+      padding: 0.6rem 1.2rem;
+      border-radius: 20px;
+      width: fit-content;
+      margin: 0 auto;
+    }
+
+    .highlight {
+      background-color: rgba(255, 255, 0, 0.4);
+      color: inherit;
+      transition: background-color 0.3s ease;
+    }
+  </style>
+</head>
+<body>
+  <div class="overlay"></div>
+
+  <nav>
+    <div class="navbar-container">
+      <div class="logo"><a href="index.html">이원록에서 이육사까지</a></div>
+      <ul class="navbar">
+        <li><a href="timeline.html">연보</a></li>
+        <li><a href="works.html">작품</a></li>
+      </ul>
+    </div>
+  </nav>
+
+  <button class="toggle-btn" onclick="togglePanel()">설명 보기</button>
+
+  <div class="container">
+    <div class="content">
+      <div class="wrap">
+        <div class="title">질투의 반군성</div>
+        <div class="poem">
+            형! 부탁하신 원고는 이제 겨우 붓을 들게 되어 편집의 기일에 다행히 맞아질는지 모릅니다.
+            그러나 늦게라도 이 붓을 드는 나에게는 다음과 같은 몇 가지의 이유가 있는 것이며, 그 이유를 말하는 데서 이 적은 글이 가져야 할 골자가 밝혀질까 합니다.
+            그 첫째는 형의 몇 차례나 하신 간곡한 부탁에 갚아지려는 나의 미충(微衷)이며, 둘째는 형의 부탁에 갚아질만한 재료가 없다는 것을 고백합니다.
+            그것은 다시 말하면, 나는 생활을 갖지 못하였다는 것입니다. 적어도 '신세리티'가 없는 곳에는 참다운 생활은 있을 수 없다고 생각하는 현금의 나에게 어찌 보고할 만한 재료가 있으리까? 만약 이 말을 믿지 못하신다면, 나는 여기에 재미스런 한 가지 사실을 들어 이상의 말을 증명할까 합니다.
+            
+            그것은 지나간 7월입니다. 나는 매우 쇠약해진 몸을 나의 시골에서 그다지 멀지 않은 동해 송도원(松濤園)으로 요양의 길을 떠났습니다. 그 후 날이 거듭하는 동안 나는 그대로 서울이 그립고 서울 일이 알고 싶었습니다. 그럴 때마다 서울 있는 동무들이 보내 주는 편지는 그야말로 내 건강을 도울 만큼 내 마음을 유쾌하게 하였던 것입니다.
+            그런데 일전(그것은 형이 나에게 원고를 부탁하시던 날) 어느 친우를 방문하고 오는 길에 어느 책사(冊肆)에 들렀다가 때마침<조선 문인 서간집>이란 신간서가 놓였기에 그 내용을 펼쳐 보았더니, 그 속에는 내가 여름 동안 해수욕장에서 받은 편지 중에 가장 주의했던 편지 한 장이 전문 그대로 발표되어 있었습니다.
+            그런데 그 편지의 주인공은 내가 해변으로 가기 전 꼭 나와는 일거 인동을 같이한 룸펜(이것은 시인의 명예를 손상치 않습니다) 이던 나의 친애하는 이병각(李秉珏)군이었습니다. 그러므로 그는 나의 생활을 누구보다도 이해하는 정도가 깊었으리라는 것은 다시 말할 여지가 없는 데도 불구하고 그는 다음과 같은 말을 했습니다.
+            
+            "..........형의 말에 의하면 급한 볼일이 있어 갔다고 하더라도 여름에 해변에 용무가 생긴다는 것부터 형은 우리 따위가 아니란 것을 새삼스레 알았습니다......"
+            운운하고 평소부터 나에게 입버릇같이 자네는 너무 뻐기니까 하던 예의 독설을 한참 늘어놓은 다음 그는 또 문장을 계속하였습니다.
+            "....... 건강이야 묻는 것이 어리석지요. 적동색(赤銅色)얼굴에 '포리타민' 광고에 그린 그림 쪽......"이 되라느리 하여 놓고는 ".......한 채 집이 다 타도 빈대 죽는 맛은 있더라고, 장림(長霖)이 자리하니 형의 해수욕 풍경이 만화의 소재밖에는 되지 않을 것을 생각하고 고소합니다........." 고 끝을 맺은 간단한 문장이었습니다.
+            풍자시를 쓰는 우리 이 군의 나에 대한, 또는 나의 생활에 대한 견해가 그 역설에 있어서 정당했다고 하더라도 나는 이 군에게 불만을 가지지 않을 수가 없다는 것은 기왕 벌인 춤이면 왜 좀더 풍자하지 못하였을까 하는 것입니다.
+            
+            대저 위에서도 한 말이나 '뻐긴다'는 말은 사실이 없는 것을 허장 성세(虛張聲勢)한다는 말일 것인데, 허장 성세하는 사람에게 '신세리티'가 있겠습니까. 또 무슨 생활이 있겠습니까.
+            그러나 '생활이 없다'는 순간이 오래 오래 연속되는 동안 그것이 생활이라면 그것을 구태여 부정하고 싶지도 않습니다. 뿐만 아니라 거기에서 한 걸음 더 나아가 남이 긍정하는 바를 내가 긍정해서 남의 위치를 침범하는 것보다는 차라리 내가 부정할 바를 부정한다는 것은 마치 남이 향락할 바를 내가 향락해서 충돌이 생기고 질투가 생기는 것보다는 다른 어떤 사람도 분배를 요구치 않는 고민을 나 혼자 무한히 고민한다는 것과 같이 적어도 오늘의 나에게는 그보다 더 큰 향락이 없을는지도 모르는 것입니다.
+            마치 이 길은 내가 경험한 가장 짧은 한 순간과도 같을는지 모릅니다. 태풍이 몹시 불던 날 밤, 온 시가는 창세기의 첫날밤같이 암흑에 흔들리고 폭우가 화살같이 퍼붓는 들판을 걸어 바닷가로 뛰어 나갔습니다. 가서 덩굴에 엎어지락 자빠지락, 문학의 길도 그럴는지는 모르지마는 손에 든 전등도 내 양심과 같이 겨우 내 발끝밖에는 못비치더군요.
+            그러나 바닷가에 거의 닿았을 때는 파도 소리는 반군(叛軍)의 성이 무너지는 듯하고, 하얀 포말(泡沫)에 번개가 푸르게 비칠 때만은 영롱하게 빛나는 바다의 일면! 나는 아직도 꿈이 아닌 그날 밤의 바닷가로 태풍의 속을 가고 있을지도 모릅니다.
+            
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="info-panel" id="infoPanel">
+    <h2>해설</h2>
+    <p>
+        이 수필은 한 편지에 담긴 질투와 풍자를 계기로 ‘진정성 없는 삶’과 ‘허장성세’에 대한 자성적 성찰을 펼쳐 보인 수필입니다.
+        시인은 허세 없는 고통과 외로움 속에서 오히려 혼자의 고뇌가 가장 진실한 향락일 수 있음을 고백하며, 태풍 속 바다에서 그 진실을 체험합니다.
+    </p>
+
+    <div class="section-title">키워드</div>
+    <div class="keywords">
+      <div class="keyword">#질투</div>
+      <div class="keyword">#반군성</div>
+      <div class="keyword">#감정</div>
+      <div class="keyword">#심리</div>
+      <div class="keyword">#내면</div>
+    </div>
+
+    <div class="section-title">관련 작품</div>
+    <div>
+      <a href="pyeonbok.html">편복</a><br>
+      <a href="seoul.html">서울</a><br>
+      <a href="yeonroon.html">연륜</a>
+    </div>
+  </div>
+
+  <div class="sticky-tip" id="highlightTip">
+    인상 깊은 문장을 드래그해서 하이라이트 해보세요
+  </div>
+
+  <script>
+    document.addEventListener("DOMContentLoaded", () => {
+      const toggleBtn = document.querySelector('.toggle-btn');
+      const infoPanel = document.getElementById("infoPanel");
+      const poem = document.querySelector('.poem');
+      const tip = document.getElementById("highlightTip");
+
+      toggleBtn.addEventListener('click', () => {
+        infoPanel.classList.toggle("open");
+      });
+
+      poem.addEventListener('mouseup', () => {
+        const selection = window.getSelection();
+        const selectedText = selection.toString();
+        if (selectedText.length > 0 && selection.rangeCount > 0) {
+          const range = selection.getRangeAt(0);
+          const span = document.createElement("span");
+          span.className = "highlight";
+          span.textContent = selectedText;
+          range.deleteContents();
+          range.insertNode(span);
+          selection.removeAllRanges();
+        }
+      });
+
+      poem.addEventListener('click', (e) => {
+        if (e.target.classList.contains("highlight")) {
+          const parent = e.target.parentNode;
+          parent.replaceChild(document.createTextNode(e.target.textContent), e.target);
+        }
+      });
+
+      tip.addEventListener("click", () => {
+        tip.style.display = "none";
+      });
+    });
+  </script>
+</body>
+</html>
