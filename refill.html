@@ -1,0 +1,323 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <title>나의 대용품 현주,냉광</title>
+  <link rel="icon" href="favicon.png" type="image/png">
+  <link href="https://fonts.googleapis.com/css2?family=Orbit&display=swap" rel="stylesheet">
+  <style>
+    @font-face {
+      font-family: 'BookkMyungjo-Bd';
+      src: url('https://fastly.jsdelivr.net/gh/projectnoonnu/noonfonts_2302@1.0/BookkMyungjo-Bd.woff2') format('woff2');
+      font-weight: 700;
+      font-style: normal;
+    }
+
+    html, body {
+      margin: 0;
+      font-family: 'BookkMyungjo-Bd', serif;
+      color: #fff;
+      background: url('25.jpg')center center no-repeat;;
+      background-attachment: fixed;
+      word-break: keep-all;
+    }
+
+    .overlay {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100vh;
+      background-color: rgba(0, 0, 0, 0.4);
+      z-index: 0;
+    }
+
+    nav {
+      position: sticky;
+      top: 0;
+      z-index: 3000;
+      padding: 1.5rem 0;
+      background: linear-gradient(rgba(0,0,0,0.9), rgba(0,0,0,0.7), rgba(0,0,0,0.5), rgba(0,0,0,0.3), rgba(0,0,0,0.0));
+    }
+
+    .navbar-container {
+      width: 1000px;
+      margin: 0 auto;
+      padding: 0 2rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .logo a {
+      font-size: 1.5rem;
+      font-weight: 700;
+      color: #fff;
+      text-decoration: none;
+      letter-spacing: -0.5px;
+    }
+
+    .navbar {
+      display: flex;
+      gap: 2rem;
+      list-style: none;
+      padding: 0;
+      margin: 0;
+    }
+
+    .navbar a {
+      font-size: 1.5rem;
+      text-decoration: none;
+      color: #fff;
+      opacity: 1;
+      transition: opacity 0.3s ease;
+    }
+
+    body.index .navbar a:hover { opacity: 0.5; }
+    body.page .navbar a { opacity: 0.5; }
+    body.page .navbar a.active {
+      opacity: 1;
+      font-weight: 700;
+      pointer-events: none;
+    }
+
+    .toggle-btn {
+      position: fixed;
+      top: 5.5rem;
+      right: 1.5rem;
+      background: #fff;
+      color: #111;
+      border: none;
+      padding: 0.5rem 1rem 0.65rem 1rem;
+      font-size: 0.9rem;
+      cursor: pointer;
+      border-radius: 4px;
+      z-index: 2500;
+      font-family: 'Orbit', sans-serif;
+    }
+
+    .toggle-btn::after {
+      content: ' ▶';
+      font-size: 0.85rem;
+    }
+
+    .container {
+      display: flex;
+      position: relative;
+      z-index: 1;
+    }
+
+    .content {
+      flex: 1;
+      padding: 8vw 5vw;
+      box-sizing: border-box;
+      position: relative;
+      z-index: 1;
+    }
+
+    .wrap {
+      width: 1000px;
+      margin: auto;
+      padding-bottom: 8vh;
+      position: relative;
+      z-index: 1;
+    }
+
+    .title {
+      font-size: clamp(2.5rem, 6vw, 5rem);
+      margin-bottom: 2rem;
+    }
+
+    .poem {
+      font-size: 2.5vw;
+      line-height: 1.7;
+      white-space: pre-line;
+      word-break: keep-all;
+    }
+
+    .info-panel {
+      position: fixed;
+      top: 0;
+      right: 0;
+      width: 400px;
+      height: 100vh;
+      background-color: rgba(34, 34, 34, 0.85);
+      backdrop-filter: blur(12px);
+      padding: 6rem 2rem 4rem;
+      box-sizing: border-box;
+      transform: translateX(100%);
+      transition: transform 0.4s ease;
+      overflow-y: auto;
+      z-index: 2000;
+      font-family: 'Orbit', sans-serif;
+      font-size: 1rem;
+      line-height: 1.8;
+      color: #fff;
+      background-image:
+        linear-gradient(rgba(255,255,255,0.05) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(255,255,255,0.05) 1px, transparent 1px);
+      background-size: 20px 20px;
+    }
+
+    .info-panel.open {
+      transform: translateX(0%);
+    }
+
+    .info-panel h2 {
+      font-size: 1.8rem;
+      margin-bottom: 1.2rem;
+      font-family: 'BookkMyungjo-Bd', serif;
+    }
+
+    .section-title {
+      font-size: 1rem;
+      margin-top: 2rem;
+      margin-bottom: 0.6rem;
+      font-weight: bold;
+      color: #ccc;
+    }
+
+    .keywords {
+      display: flex;
+      gap: 0.5rem;
+      flex-wrap: wrap;
+      margin-bottom: 2rem;
+    }
+
+    .keyword {
+      background-color: #444;
+      padding: 0.4rem 0.8rem;
+      border-radius: 16px;
+      font-size: 0.85rem;
+      color: #eee;
+    }
+
+    .info-panel a {
+      color: #4fc3f7;
+      text-decoration: none;
+    }
+
+    .info-panel a:hover {
+      text-decoration: underline;
+    }
+
+    .sticky-tip {
+      position: sticky;
+      bottom: 3rem;
+      top: 1rem;
+      z-index: 9999;
+      text-align: center;
+      color: #fff;
+      background: rgba(0, 0, 0, 0.6);
+      font-family: 'Orbit', sans-serif;
+      font-size: 0.9rem;
+      padding: 0.6rem 1.2rem;
+      border-radius: 20px;
+      width: fit-content;
+      margin: 0 auto;
+    }
+
+    .highlight {
+      background-color: rgba(255, 255, 0, 0.4);
+      color: inherit;
+      transition: background-color 0.3s ease;
+    }
+  </style>
+</head>
+<body>
+  <div class="overlay"></div>
+
+  <nav>
+    <div class="navbar-container">
+      <div class="logo"><a href="index.html">이원록에서 이육사까지</a></div>
+      <ul class="navbar">
+        <li><a href="timeline.html">연보</a></li>
+        <li><a href="works.html">작품</a></li>
+      </ul>
+    </div>
+  </nav>
+
+  <button class="toggle-btn" onclick="togglePanel()">설명 보기</button>
+
+  <div class="container">
+    <div class="content">
+      <div class="wrap">
+        <div class="title">나의 대용품 현주,냉광</div>
+        <div class="poem">
+            대용품을 얘기하기보다는 우선 적용폼(適用品)의 내력을 말해 보겠소. 장신구로 말하면 양복이나 오버가 모두 연전(年前)에 장만한 것이 되어서 속(俗) 소위 '스무'란 한 올도 섞이지 않았소.
+
+            그런데 첫여름에 교피(鮫皮) 구두를 한 켤레 신어 본 일이 있었는데, 그 덕에 여름 비가 그다지 많이 왔는가 싶어 금나 벗어버리고 지금은 없소, 식용품에는 가배에 다분히 딴놈을 넣는 모양이나 넣을 때 보지 않는만큼 그냥 마십니다마는 그도 심하면 아침에 미쓰꼬시에 가서 진짜를 한 잔 합니다. 버터는 요즘 대개는 고놈 '헷드'니 '라아드'니 하는 것을 주는데 아무튼 고수한 맛이 없더군요. 그래서 잼이나 마마레드는 먹고 고놈은 그냥 버려 둡니다.
+            
+            그런데 대용품이라면 요즘은 모두 시국(時局)과 불가분의 관계로 생각하는 모양인데 사실은 옛날부터 이 대용품이 있었습니다. <사례편람(四禮便覽)>에 보면 대부(大夫)의 제(祭)에는 오탕(五湯)을 쓰는 법이었는데, 그 오탕 중에는 생치탕(生雉湯)이 한몫 끼이는 법이나, 제사가 여름이면 생치탕이 없으므로 계탕(鷄湯)을 대용하는 것이며, 술도 옛날에 자가용(自家用)을 빚을 수 있을 때는 맨 처음 노란 청주(淸酒)를 떠서 제주(祭酒)를 봉(封)하고 난 뒤에 손을 대접하곤 했으나, 자가용 주(酒)가 없어진 뒤는 술을 사온 것은 부정(不精)하다고 예설(禮設)에 있는 대로 냉수를 청주 대신 '현주(玄酒)'라고 쓰는 법이 있었는데, 이것은 신을 속이기 쉽다는 것보다 그들의 신에 대한 관념이 '양양히 그 위에 계신 듯' 하다는 말로 보면, 나도 술대신 현주를 마시고 혼연히 취한 듯하다고 생각해 볼까하오.
+            
+            그리고 옛날 어떤 선비는 청빈한 집이라 등잔을 켤 형세가 못 돼서 여름이면 반딧불을 잡아서 글을 읽었고, 때로는 달빛을 따라 지붕 위에서 글을 읽은 이도 있었다 하니 이도 말하자면 대용품인 것은 틀림없으나 그럴 듯 풍류이기도 하지 않소, 요즘은 화학자들이 이 반딧불과 월광을 화열(火熱), 전열(電熱) 등 모든 열광의 대용품으로 자자(孜孜)히들 연구하는 모양인데, 이러한 냉광(冷光)이 비록 완성되지 않는다 하더라도 나는 벌써부터 애용하고 있는 터이오. 지금도 나는 휘황찬란한 전열 밑에서 보다는 무엇을 사색할 필요가 있을 때는 월광(月光)을 따라 성 밑이나 산마루턱을 혼자 거닐기도 하오. 그것도 한겨울 눈이 하얗게 쌓인 위를 밤 깊이 걸어다니면 그야말로 냉광은 질식된 내 영혼을 불러 살리는 때가 있는 것이오.
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="info-panel" id="infoPanel">
+    <h2>해설</h2>
+    <p>
+        이 작품은 결핍의 시대 속에서도 감각과 정신의 진짜 가치를 탐색하며, 진품보다 더 진실한 '대용품'의 풍류와 철학을 말하고 있습니다.
+        현실의 부족함을 감수성과 사색으로 채워나가는 태도는, 가난함 속에서도 삶의 본질을 추구하는 시인의 미학을 보여줍니다.
+    </p>
+
+    <div class="section-title">키워드</div>
+    <div class="keywords">
+      <div class="keyword">#정체성</div>
+      <div class="keyword">#대용품</div>
+      <div class="keyword">#관계</div>
+      <div class="keyword">#존재론</div>
+    </div>
+
+    <div class="section-title">관련 작품</div>
+    <div>
+    
+      <a href="pyeonbok.html">편복</a>
+    </div>
+  </div>
+
+  <div class="sticky-tip" id="highlightTip">
+    인상 깊은 문장을 드래그해서 하이라이트 해보세요
+  </div>
+
+  <script>
+    document.addEventListener("DOMContentLoaded", () => {
+      const toggleBtn = document.querySelector('.toggle-btn');
+      const infoPanel = document.getElementById("infoPanel");
+      const poem = document.querySelector('.poem');
+      const tip = document.getElementById("highlightTip");
+
+      toggleBtn.addEventListener('click', () => {
+        infoPanel.classList.toggle("open");
+      });
+
+      poem.addEventListener('mouseup', () => {
+        const selection = window.getSelection();
+        const selectedText = selection.toString();
+        if (selectedText.length > 0 && selection.rangeCount > 0) {
+          const range = selection.getRangeAt(0);
+          const span = document.createElement("span");
+          span.className = "highlight";
+          span.textContent = selectedText;
+          range.deleteContents();
+          range.insertNode(span);
+          selection.removeAllRanges();
+        }
+      });
+
+      poem.addEventListener('click', (e) => {
+        if (e.target.classList.contains("highlight")) {
+          const parent = e.target.parentNode;
+          parent.replaceChild(document.createTextNode(e.target.textContent), e.target);
+        }
+      });
+
+      tip.addEventListener("click", () => {
+        tip.style.display = "none";
+      });
+    });
+  </script>
+</body>
+</html>

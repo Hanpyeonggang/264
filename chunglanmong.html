@@ -1,0 +1,336 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <title>청란몽</title>
+  <link rel="icon" href="favicon.png" type="image/png">
+  <link href="https://fonts.googleapis.com/css2?family=Orbit&display=swap" rel="stylesheet">
+  <style>
+    @font-face {
+      font-family: 'BookkMyungjo-Bd';
+      src: url('https://fastly.jsdelivr.net/gh/projectnoonnu/noonfonts_2302@1.0/BookkMyungjo-Bd.woff2') format('woff2');
+      font-weight: 700;
+      font-style: normal;
+    }
+
+    html, body {
+      margin: 0;
+      font-family: 'BookkMyungjo-Bd', serif;
+      color: #fff;
+      background: url('37.jpg') center center no-repeat;
+      background-size: cover;
+      background-attachment: fixed;
+      word-break: keep-all;
+    }
+
+    .overlay {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100vh;
+      background-color: rgba(0, 0, 0, 0.4);
+      z-index: 0;
+    }
+
+    nav {
+      position: sticky;
+      top: 0;
+      z-index: 3000;
+      padding: 1.5rem 0;
+      background: linear-gradient(rgba(0,0,0,0.9), rgba(0,0,0,0.7), rgba(0,0,0,0.5), rgba(0,0,0,0.3), rgba(0,0,0,0.0));
+    }
+
+    .navbar-container {
+      width: 1000px;
+      margin: 0 auto;
+      padding: 0 2rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .logo a {
+      font-size: 1.5rem;
+      font-weight: 700;
+      color: #fff;
+      text-decoration: none;
+      letter-spacing: -0.5px;
+    }
+
+    .navbar {
+      display: flex;
+      gap: 2rem;
+      list-style: none;
+      padding: 0;
+      margin: 0;
+    }
+
+    .navbar a {
+      font-size: 1.5rem;
+      text-decoration: none;
+      color: #fff;
+      opacity: 1;
+      transition: opacity 0.3s ease;
+    }
+
+    body.index .navbar a:hover { opacity: 0.5; }
+    body.page .navbar a { opacity: 0.5; }
+    body.page .navbar a.active {
+      opacity: 1;
+      font-weight: 700;
+      pointer-events: none;
+    }
+
+    .toggle-btn {
+      position: fixed;
+      top: 5.5rem;
+      right: 1.5rem;
+      background: #fff;
+      color: #111;
+      border: none;
+      padding: 0.5rem 1rem 0.65rem 1rem;
+      font-size: 0.9rem;
+      cursor: pointer;
+      border-radius: 4px;
+      z-index: 2500;
+      font-family: 'Orbit', sans-serif;
+    }
+
+    .toggle-btn::after {
+      content: ' ▶';
+      font-size: 0.85rem;
+    }
+
+    .container {
+      display: flex;
+      position: relative;
+      z-index: 1;
+    }
+
+    .content {
+      flex: 1;
+      padding: 8vw 5vw;
+      box-sizing: border-box;
+      position: relative;
+      z-index: 1;
+    }
+
+    .wrap {
+      width: 1000px;
+      margin: auto;
+      padding-bottom: 8vh;
+      position: relative;
+      z-index: 1;
+    }
+
+    .title {
+      font-size: clamp(2.5rem, 6vw, 5rem);
+      margin-bottom: 2rem;
+    }
+
+    .poem {
+      font-size: 2vw;
+      line-height: 1.7;
+      white-space: pre-line;
+      word-break: keep-all;
+    }
+
+    .info-panel {
+      position: fixed;
+      top: 0;
+      right: 0;
+      width: 400px;
+      height: 100vh;
+      background-color: rgba(34, 34, 34, 0.85);
+      backdrop-filter: blur(12px);
+      padding: 6rem 2rem 4rem;
+      box-sizing: border-box;
+      transform: translateX(100%);
+      transition: transform 0.4s ease;
+      overflow-y: auto;
+      z-index: 2000;
+      font-family: 'Orbit', sans-serif;
+      font-size: 1rem;
+      line-height: 1.8;
+      color: #fff;
+      background-image:
+        linear-gradient(rgba(255,255,255,0.05) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(255,255,255,0.05) 1px, transparent 1px);
+      background-size: 20px 20px;
+    }
+
+    .info-panel.open {
+      transform: translateX(0%);
+    }
+
+    .info-panel h2 {
+      font-size: 1.8rem;
+      margin-bottom: 1.2rem;
+      font-family: 'BookkMyungjo-Bd', serif;
+    }
+
+    .section-title {
+      font-size: 1rem;
+      margin-top: 2rem;
+      margin-bottom: 0.6rem;
+      font-weight: bold;
+      color: #ccc;
+    }
+
+    .keywords {
+      display: flex;
+      gap: 0.5rem;
+      flex-wrap: wrap;
+      margin-bottom: 2rem;
+    }
+
+    .keyword {
+      background-color: #444;
+      padding: 0.4rem 0.8rem;
+      border-radius: 16px;
+      font-size: 0.85rem;
+      color: #eee;
+    }
+
+    .info-panel a {
+      color: #4fc3f7;
+      text-decoration: none;
+    }
+
+    .info-panel a:hover {
+      text-decoration: underline;
+    }
+
+    .sticky-tip {
+      position: sticky;
+      bottom: 3rem;
+      top: 1rem;
+      z-index: 9999;
+      text-align: center;
+      color: #fff;
+      background: rgba(0, 0, 0, 0.6);
+      font-family: 'Orbit', sans-serif;
+      font-size: 0.9rem;
+      padding: 0.6rem 1.2rem;
+      border-radius: 20px;
+      width: fit-content;
+      margin: 0 auto;
+    }
+
+    .highlight {
+      background-color: rgba(255, 255, 0, 0.4);
+      color: inherit;
+      transition: background-color 0.3s ease;
+    }
+  </style>
+</head>
+<body>
+  <div class="overlay"></div>
+
+  <nav>
+    <div class="navbar-container">
+      <div class="logo"><a href="index.html">이원록에서 이육사까지</a></div>
+      <ul class="navbar">
+        <li><a href="timeline.html">연보</a></li>
+        <li><a href="works.html">작품</a></li>
+      </ul>
+    </div>
+  </nav>
+
+  <button class="toggle-btn" onclick="togglePanel()">설명 보기</button>
+
+  <div class="container">
+    <div class="content">
+      <div class="wrap">
+        <div class="title">청란몽</div>
+        <div class="poem">
+            거리에 마로니에가 활짝 피기는 아직도 한참 있어야 할 것 같다. 젖구름 사이로 기다란 한 줄 빛깔이 흘러 내려온 것은 마치 바이올린의 한 줄같이 부드럽고도 날카롭게 내 심금(心琴)의 어느 한 줄에라도 닿기만 하면 그만 곧 신묘(神妙)한 멜로디가 흘러 나올 것만 같다.
+
+            정녕 봄이 온 것이다.
+            
+            이 가벼운 게으름을 어째서 꼭 이겨야만 될 턱이 있으냐.
+            
+            대웅성좌(大熊星座)가 보이는 내 침대는 바다 속보다도 고요할 수 있는 것이 남모르는 자랑이었다. 나는 여기서부터 표류기(漂流記)를 쓸 수도 있는 것이다. 날씬한 놈, 몽땅한 놈, 나는 놈, 기는 놈, 달리는 놈, 수없이 많은 어족(漁族)들의 세상을 찾았는가 하면 어느때는 불에 타는 열사(熱砂)의 나라 철수화(鐵樹花)나 선인장들이 가시성같이 무성한 위에 황금 사북같이 재겨 붙인 작은 꽃들, 그것은 죽음에의 유혹같이 사람의 영혼을 할퀴곤 하였다.
+            
+            소낙비가 지나가고 무지개가 서는 곳엔 맑은 시냇물이 흘렀다. 계류(溪流)를 따라 올라가면 자운영꽃이 들로 하나 다복이 핀 두렁길로 하늘에 닿을 듯한 전나무 숲 사이로 들어가면 살림맥이들은 잇풀을 뜯어먹다간 벗말을 불러 소리치곤 뛰어가는 곳, 하이얀 목책이 죽 둘린 너머로 수정궁같이 깨끗한 집들이 즐비한 곳에 화강암으로 깎아 박은 돌계단이 기다랗게 하양(夏陽)의 옅은 햇살을 받아 진주 가루라도 흩뿌리는 듯 눈이 부시다.
+            
+            마치 어느 나라의 왕궁인 듯 호화스럽다. 그렇다면 왕은 수렵이라도 가고 궁전만은 비어 있는 것일까 하고 돌축을 하나하나 밟아 가면 또다시 기다란 줄 행랑(行廊)이 축을 하나하나 밟아 가면 또다시 기다란 줄 행랑(行廊)이 있는 것이고, 그것을 오른편으로 돌아들어 왼편으로 보이는 별실(別室)은 서재인 듯 조용한 목에 뜰 앞에 조롱들 속에서 빛깔 다른 새들이 시스마금 낯선 손님을 맞아 아는 체하고 재재거린다. 그 아래로 화단에는 저마다 다른 제 고향의 향기를 뽑아 멀리서 온 에트랑제는 취하면 혼혼하게 잠이 들 수도 있는 것이다.
+            
+            가벼운 바람과 함께 앞창이 슬쩍 열리고는 공주보다 교만해 보이는 젊은 여자 손에는 새파란 줄기에 양호필(羊毫筆)같이 하얀 봉오리가 달린 난화(蘭花)를 한 다발 안고 와서는 뒤를 돌아보며 시비(侍婢)를 물리치곤 내 책상 위에 은으로 만든 화병에다 한 대를 골라 꽂아 두곤 무슨 말을 할 듯 하다가는 그만 부끄러운 듯이 아무런 말도 하지 못하고 조심조심 물러가고 만 것이었다. 달빛이 창백하게 흐르면 유리창을 넘어서 내 방은 추워졌다. 병든 마음이었고 피곤한 몸이었다. 십년이나 되는 긴 세월을 나는 모든 것을 내 혼자 병들어 본다. 병도 나에게는 한 개의 향락일 수 있기 때문이었다. 아무도 없는 무덤 같은 방안에서 혼자서 꿈을 꿀수가 있지 않은가. 잠이 깨면 또 달이 밝지 않은가. 그 꿈만은 아니었다. 그 여자가 화병에 꽂아 주고 간 난꽃이 그냥 남아 있는 것이 아닌가.
+            
+            그 복욱하고 청렬한 향기가 몇천만 개의 단어보다도 더 힘차게 더 따사롭게 내 영혼에 속삭이는 말 아닌 말이 보다 더 큰, 더 행복된 위안이 어디 있으므로 이것을 꿈이라 헛되다고 누가 말하리요. 진정 헛된 꿈이라고 말하면 꿈 그대로 살아보는 것도 또한 쾌하지 않은가.
+            
+            나는 때로 거리를 걸어 보기도 하나 그 꿈속에 걸어 본 거리와 그 여자의 모습은 영영 볼수는 없는 것이었다. 때로 꽃집을 들러도 보고 난꽃을 찾아도 보았으나 내 머리 속에 태워 붙인 그것처럼 사라질 줄 모르는 향기는 찾아볼 수 없었다. 꿈은 유쾌한 것, 영원한 것이기도 하다.
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="info-panel" id="infoPanel">
+    <h2>해설</h2>
+    <p>
+        이 수필은」은 고요한 침대에서 꾸는 환상적인 꿈을 통해 진정한 위안과 행복을 갈망하는 작품입니다.
+        현실의 고단함 속에서 청란(靑蘭)의 향기와 봄의 도래를 꿈꾸며 외로운 삶의 구원을 찾고자 합니다.
+        
+    </p>
+
+    <div class="section-title">키워드</div>
+    <div class="keywords">
+      <div class="keyword">#청란</div>
+      <div class="keyword">#마음</div>
+      <div class="keyword">#꿈</div>
+    </div>
+
+
+<div class="section-title">관련 작품</div>
+    <div>
+      <a href="changgong.html">창공에 그리는 마음</a><br>
+      
+    </div>
+  </div>
+
+  <div class="sticky-tip" id="highlightTip">
+    인상 깊은 문장을 드래그해서 하이라이트 해보세요
+  </div>
+ 
+
+  <script>
+    document.addEventListener("DOMContentLoaded", () => {
+      const toggleBtn = document.querySelector('.toggle-btn');
+      const infoPanel = document.getElementById("infoPanel");
+      const poem = document.querySelector('.poem');
+      const tip = document.getElementById("highlightTip");
+
+      toggleBtn.addEventListener('click', () => {
+        infoPanel.classList.toggle("open");
+      });
+
+      poem.addEventListener('mouseup', () => {
+        const selection = window.getSelection();
+        const selectedText = selection.toString();
+        if (selectedText.length > 0 && selection.rangeCount > 0) {
+          const range = selection.getRangeAt(0);
+          const span = document.createElement("span");
+          span.className = "highlight";
+          span.textContent = selectedText;
+          range.deleteContents();
+          range.insertNode(span);
+          selection.removeAllRanges();
+        }
+      });
+
+      poem.addEventListener('click', (e) => {
+        if (e.target.classList.contains("highlight")) {
+          const parent = e.target.parentNode;
+          parent.replaceChild(document.createTextNode(e.target.textContent), e.target);
+        }
+      });
+
+      tip.addEventListener("click", () => {
+        tip.style.display = "none";
+      });
+    });
+  </script>
+</body>
+</html>

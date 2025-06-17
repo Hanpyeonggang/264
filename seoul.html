@@ -1,0 +1,344 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <title>서울</title>
+  <link rel="icon" href="favicon.png" type="image/png">
+  <link href="https://fonts.googleapis.com/css2?family=Orbit&display=swap" rel="stylesheet">
+  <style>
+    @font-face {
+      font-family: 'BookkMyungjo-Bd';
+      src: url('https://fastly.jsdelivr.net/gh/projectnoonnu/noonfonts_2302@1.0/BookkMyungjo-Bd.woff2') format('woff2');
+      font-weight: 700;
+      font-style: normal;
+    }
+
+    html, body {
+      margin: 0;
+      font-family: 'BookkMyungjo-Bd', serif;
+      color: #fff;
+      background: url('6.jpg') no-repeat center center fixed;
+      background-size: cover;
+      word-break: keep-all;
+    }
+
+    .overlay {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100vh;
+      background-color: rgba(0, 0, 0, 0.4);
+      z-index: 0;
+    }
+
+    nav {
+      position: sticky;
+      top: 0;
+      z-index: 3000;
+      padding: 1.5rem 0;
+      background: linear-gradient(rgba(0, 0, 0, 0.9), rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.3), rgba(0, 0, 0, 0.0));
+    }
+
+    .navbar-container {
+      width: 1000px;
+      margin: 0 auto;
+      padding: 0 2rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .logo a {
+      font-size: 1.5rem;
+      font-weight: 700;
+      color: #fff;
+      text-decoration: none;
+      letter-spacing: -0.5px;
+    }
+
+    .navbar {
+      display: flex;
+      gap: 2rem;
+      list-style: none;
+      padding: 0;
+      margin: 0;
+    }
+
+    .navbar a {
+      font-size: 1.5rem;
+      text-decoration: none;
+      color: #fff;
+      opacity: 1;
+      transition: opacity 0.3s ease;
+    }
+
+    body.index .navbar a:hover { opacity: 0.5; }
+    body.page .navbar a { opacity: 0.5; }
+    body.page .navbar a.active {
+      opacity: 1;
+      font-weight: 700;
+      pointer-events: none;
+    }
+
+    .toggle-btn {
+      position: fixed;
+      top: 5.5rem;
+      right: 1.5rem;
+      background: #fff;
+      color: #111;
+      border: none;
+      padding: 0.5rem 1rem 0.65rem 1rem;
+      font-size: 0.9rem;
+      cursor: pointer;
+      border-radius: 4px;
+      z-index: 2500;
+      font-family: 'Orbit', sans-serif;
+    }
+
+    .toggle-btn::after {
+      content: ' ▶';
+      font-size: 0.85rem;
+    }
+
+    .container {
+      display: flex;
+      position: relative;
+      z-index: 1;
+    }
+
+    .content {
+      flex: 1;
+      padding: 8vw 5vw;
+      box-sizing: border-box;
+      position: relative;
+      z-index: 1;
+    }
+
+    .wrap {
+      width: 1000px;
+      margin: auto;
+      padding-bottom: 8vh;
+      position: relative;
+      z-index: 1;
+    }
+
+    .title {
+      font-size: clamp(2.5rem, 6vw, 5rem);
+      margin-bottom: 2rem;
+    }
+
+    .poem {
+      font-size: 1.6vw;
+      line-height: 1.8;
+      white-space: pre-line;
+      word-break: keep-all;
+    }
+
+    .info-panel {
+      position: fixed;
+      top: 0;
+      right: 0;
+      width: 400px;
+      height: 100vh;
+      background-color: rgba(34, 34, 34, 0.85);
+      backdrop-filter: blur(12px);
+      padding: 6rem 2rem 4rem;
+      box-sizing: border-box;
+      transform: translateX(100%);
+      transition: transform 0.4s ease;
+      overflow-y: auto;
+      z-index: 2000;
+      font-family: 'Orbit', sans-serif;
+      font-size: 1rem;
+      line-height: 1.8;
+      color: #fff;
+      background-image: linear-gradient(rgba(255,255,255,0.05) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,0.05) 1px, transparent 1px);
+      background-size: 20px 20px;
+    }
+
+    .info-panel.open {
+      transform: translateX(0%);
+    }
+
+    .info-panel h2 {
+      font-size: 1.8rem;
+      margin-bottom: 1.2rem;
+      font-family: 'BookkMyungjo-Bd', serif;
+    }
+
+    .section-title {
+      font-size: 1rem;
+      margin-top: 2rem;
+      margin-bottom: 0.6rem;
+      font-weight: bold;
+      color: #ccc;
+    }
+
+    .keywords {
+      display: flex;
+      gap: 0.5rem;
+      flex-wrap: wrap;
+      margin-bottom: 2rem;
+    }
+
+    .keyword {
+      background-color: #444;
+      padding: 0.4rem 0.8rem;
+      border-radius: 16px;
+      font-size: 0.85rem;
+      color: #eee;
+    }
+
+    .info-panel a {
+      color: #4fc3f7;
+      text-decoration: none;
+    }
+
+    .info-panel a:hover {
+      text-decoration: underline;
+    }
+
+    .sticky-tip {
+      position: sticky;
+      bottom: 3rem;
+      top: 1rem;
+      z-index: 9999;
+      text-align: center;
+      color: #fff;
+      background: rgba(0, 0, 0, 0.6);
+      font-family: 'Orbit', sans-serif;
+      font-size: 0.9rem;
+      padding: 0.6rem 1.2rem;
+      border-radius: 20px;
+      width: fit-content;
+      margin: 0 auto;
+    }
+
+    .highlight {
+      background-color: rgba(255, 255, 0, 0.4);
+      color: inherit;
+      transition: background-color 0.3s ease;
+    }
+  </style>
+</head>
+<body>
+  <div class="overlay"></div>
+
+  <nav>
+    <div class="navbar-container">
+      <div class="logo"><a href="index.html">이원록에서 이육사까지</a></div>
+      <ul class="navbar">
+        <li><a href="timeline.html">연보</a></li>
+        <li><a href="works.html">작품</a></li>
+      </ul>
+    </div>
+  </nav>
+
+  <button class="toggle-btn" onclick="togglePanel()">설명 보기</button>
+
+  <div class="container">
+    <div class="content">
+      <div class="wrap">
+        <div class="title">서울</div>
+        <div class="poem">
+어떤 시골이라도 어린애들은 있어
+고놈들 꿈결조차잊지 못할 자랑속에 피어나
+황홀하기 장미(薔薇)빛 바다였다.
+
+밤마다 야광(夜光)충들의 고운 불 아래 모여서
+영화로운 잔체와 쉴새없는 해조(諧調)에 따라
+푸른 하늘을 꾀했다는 이야기.
+
+온 누리의 심장을 거기에 느껴 보겠다고
+모든 길과 길들핏줄같이 엉클여서
+역(驛)마다 느릅나무가 늘어서고
+
+긴 세월이 맴도는 그 판에
+고추 먹고 뱅―뱅 찔레 먹고뱅―뱅
+넘어지면 「맘모스」의 해골(骸骨)처럼
+
+흐르는 인광(憐光) 길다랗게.
+개아미 마치 개아미다 젊은놈들
+겁이 잔뜩 나 차마 차마하는 마음은
+
+널 원망에 비겨 잊을 것이었다 깍쟁이.
+언제나 여름이 오면 황혼의
+이 뿔따귀 저 뿔따귀에
+
+한 줄씩 걸쳐매고 짐짓 창공에 노려대는
+거미집이다 텅 비인.
+제발 바람이 세차게 불거든
+
+케케묵은 먼지를 눈보라마냥날려라
+녹아나리면 개천에 고놈 살모사들
+승천을 할는지.
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="info-panel" id="infoPanel">
+    <h2>해설</h2>
+    <p>
+        이 시는 과거의 서울이 동심의 눈으로 보았던 환상적이고 장밋빛 세계였음을 회상하며, 지금은 폐허처럼 변해버린 도시 현실 속에서 허무와 실망, 체념을 토로하는 작품입니다.
+    </p>
+
+    <div class="section-title">키워드</div>
+    <div class="keywords">
+      <div class="keyword">#서울</div>
+      <div class="keyword">#도시</div>
+      <div class="keyword">#비판</div>
+      <div class="keyword">#현실</div>
+    </div>
+
+    <div class="section-title">관련 작품</div>
+    <div>
+      <a href="silje.html">실제</a><br>
+      <a href="choga.html">초가</a><br>
+      <a href="madsun.html">광인의 태양</a>
+    </div>
+  </div>
+
+  <div class="sticky-tip" id="highlightTip">
+    인상 깊은 문장을 드래그해서 하이라이트 해보세요
+  </div>
+
+  <script>
+    function togglePanel() {
+      const panel = document.getElementById("infoPanel");
+      panel.classList.toggle("open");
+    }
+
+    document.addEventListener("DOMContentLoaded", () => {
+      const poem = document.querySelector('.poem');
+      const tip = document.getElementById("highlightTip");
+
+      poem.addEventListener('mouseup', () => {
+        const selection = window.getSelection();
+        const selectedText = selection.toString();
+        if (selectedText.length > 0 && selection.rangeCount > 0) {
+          const range = selection.getRangeAt(0);
+          const span = document.createElement("span");
+          span.className = "highlight";
+          span.textContent = selectedText;
+          range.deleteContents();
+          range.insertNode(span);
+          selection.removeAllRanges();
+        }
+      });
+
+      poem.addEventListener('click', (e) => {
+        if (e.target.classList.contains("highlight")) {
+          const parent = e.target.parentNode;
+          parent.replaceChild(document.createTextNode(e.target.textContent), e.target);
+        }
+      });
+
+      tip.addEventListener("click", () => {
+        tip.style.display = "none";
+      });
+    });
+  </script>
+</body>
+</html>

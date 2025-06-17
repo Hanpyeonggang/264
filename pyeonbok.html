@@ -1,0 +1,351 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <title>편복</title>
+  <link rel="icon" href="favicon.png" type="image/png">
+  <link href="https://fonts.googleapis.com/css2?family=Orbit&display=swap" rel="stylesheet">
+  <style>
+    @font-face {
+      font-family: 'BookkMyungjo-Bd';
+      src: url('https://fastly.jsdelivr.net/gh/projectnoonnu/noonfonts_2302@1.0/BookkMyungjo-Bd.woff2') format('woff2');
+      font-weight: 700;
+      font-style: normal;
+    }
+
+    html, body {
+      margin: 0;
+      font-family: 'BookkMyungjo-Bd', serif;
+      color: #fff;
+      background: url('2.jpg') no-repeat center center fixed;
+      background-size: cover;
+      word-break: keep-all;
+    }
+
+    .overlay {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100vh;
+      background-color: rgba(0, 0, 0, 0.4);
+      z-index: 0;
+    }
+
+    nav {
+      position: sticky;
+      top: 0;
+      z-index: 3000;
+      padding: 1.5rem 0;
+      background: linear-gradient(rgba(0, 0, 0, 0.9), rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.3), rgba(0, 0, 0, 0.0));
+    }
+
+    .navbar-container {
+      width: 1000px;
+      margin: 0 auto;
+      padding: 0 2rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .logo a {
+      font-size: 1.5rem;
+      font-weight: 700;
+      color: #fff;
+      text-decoration: none;
+      letter-spacing: -0.5px;
+    }
+
+    .navbar {
+      display: flex;
+      gap: 2rem;
+      list-style: none;
+      padding: 0;
+      margin: 0;
+    }
+
+    .navbar a {
+      font-size: 1.5rem;
+      text-decoration: none;
+      color: #fff;
+      opacity: 1;
+      transition: opacity 0.3s ease;
+    }
+
+    body.index .navbar a:hover { opacity: 0.5; }
+    body.page .navbar a { opacity: 0.5; }
+    body.page .navbar a.active {
+      opacity: 1;
+      font-weight: 700;
+      pointer-events: none;
+    }
+
+    .toggle-btn {
+      position: fixed;
+      top: 5.5rem;
+      right: 1.5rem;
+      background: #fff;
+      color: #111;
+      border: none;
+      padding: 0.5rem 1rem 0.65rem 1rem;
+      font-size: 0.9rem;
+      cursor: pointer;
+      border-radius: 4px;
+      z-index: 2500;
+      font-family: 'Orbit', sans-serif;
+    }
+
+    .toggle-btn::after {
+      content: ' ▶';
+      font-size: 0.85rem;
+    }
+
+    .container {
+      display: flex;
+      position: relative;
+      z-index: 1;
+    }
+
+    .content {
+      flex: 1;
+      padding: 8vw 5vw;
+      box-sizing: border-box;
+      position: relative;
+      z-index: 1;
+    }
+
+    .wrap {
+      width: 1000px;
+      margin: auto;
+      padding-bottom: 8vh;
+      position: relative;
+      z-index: 1;
+    }
+
+    .title {
+      font-size: clamp(2.5rem, 6vw, 5rem);
+      margin-bottom: 2rem;
+    }
+
+    .poem {
+      font-size: 1.4vw;
+      line-height: 1.8;
+      white-space: pre-line;
+      word-break: keep-all;
+    }
+
+    .info-panel {
+      position: fixed;
+      top: 0;
+      right: 0;
+      width: 400px;
+      height: 100vh;
+      background-color: rgba(34, 34, 34, 0.85);
+      backdrop-filter: blur(12px);
+      padding: 6rem 2rem 4rem;
+      box-sizing: border-box;
+      transform: translateX(100%);
+      transition: transform 0.4s ease;
+      overflow-y: auto;
+      z-index: 2000;
+      font-family: 'Orbit', sans-serif;
+      font-size: 1rem;
+      line-height: 1.8;
+      color: #fff;
+      background-image: linear-gradient(rgba(255,255,255,0.05) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,0.05) 1px, transparent 1px);
+      background-size: 20px 20px;
+    }
+
+    .info-panel.open {
+      transform: translateX(0%);
+    }
+
+    .info-panel h2 {
+      font-size: 1.8rem;
+      margin-bottom: 1.2rem;
+      font-family: 'BookkMyungjo-Bd', serif;
+    }
+
+    .section-title {
+      font-size: 1rem;
+      margin-top: 2rem;
+      margin-bottom: 0.6rem;
+      font-weight: bold;
+      color: #ccc;
+    }
+
+    .keywords {
+      display: flex;
+      gap: 0.5rem;
+      flex-wrap: wrap;
+      margin-bottom: 2rem;
+    }
+
+    .keyword {
+      background-color: #444;
+      padding: 0.4rem 0.8rem;
+      border-radius: 16px;
+      font-size: 0.85rem;
+      color: #eee;
+    }
+
+    .info-panel a {
+      color: #4fc3f7;
+      text-decoration: none;
+    }
+
+    .info-panel a:hover {
+      text-decoration: underline;
+    }
+
+    .sticky-tip {
+      position: sticky;
+      bottom: 3rem;
+      top: 1rem;
+      z-index: 9999;
+      text-align: center;
+      color: #fff;
+      background: rgba(0, 0, 0, 0.6);
+      font-family: 'Orbit', sans-serif;
+      font-size: 0.9rem;
+      padding: 0.6rem 1.2rem;
+      border-radius: 20px;
+      width: fit-content;
+      margin: 0 auto;
+    }
+
+    .highlight {
+      background-color: rgba(255, 255, 0, 0.4);
+      color: inherit;
+      transition: background-color 0.3s ease;
+    }
+  </style>
+</head>
+<body>
+  <div class="overlay"></div>
+
+  <nav>
+    <div class="navbar-container">
+      <div class="logo"><a href="index.html">이원록에서 이육사까지</a></div>
+      <ul class="navbar">
+        <li><a href="timeline.html">연보</a></li>
+        <li><a href="works.html">작품</a></li>
+      </ul>
+    </div>
+  </nav>
+
+  <button class="toggle-btn" onclick="togglePanel()">설명 보기</button>
+
+  <div class="container">
+    <div class="content">
+      <div class="wrap">
+        <div class="title">편복</div>
+        <div class="poem">
+광명(光明)을 배반(背反)한 아득한 동굴(洞窟)에서
+다 썩은 들보라 무너진 성채(城砦) 위
+너 홀로 돌아다니는가엾은 박쥐여! 어둠에 왕자(王者)여!
+
+쥐는 너를 버리고 부자집 고(庫)간으로 도망했고
+대붕(大鵬)도 북해(北海)로 날아간 지 이미 오래거늘
+검은 세기(世紀)에 상장(喪裝)이 갈갈이 찢어질 긴 동안
+
+비둘기같은 사랑을 한 번도 속삭여 보지도 못한
+가엾은 박쥐여! 고독(孤獨)한 유령(幽靈)이여!
+앵무와 함께 종알대어 보지도 못하고
+
+딱짜구리처럼 고목(古木)을 쪼아 울리도 못 하거니만
+호보다 노란 눈깔은 유전(遺傳)을 원망한들 무엇하랴
+서러운 주교(呪交)일사 못 외일 고민(苦悶)의 이빨을 갈며
+
+종족(種族)과 홰를 잃어도 갈 곳조차 없는
+가엾은 박쥐여! 영원(永遠)한 「보헤미안」의 넋이여!
+제 정열(情熱)에 못 이겨 타서 죽는 불사조(不死鳥)는 아닐망정
+
+공산(空山) 잠긴 달에 울어 새는 두견(杜鵑)새 흘리는 피는
+그래도 사람의 심금(心琴)을 흔들어 눈물을 짜내지 않는가!
+날카로운 발톱이 암사슴의 연한 간(肝)을 노려도봤을
+
+너의 머―ㄴ 조선(祖先)의 영화(榮華)롭던 한시절 역사(歷史)도
+이제는「아이누」의 가계(家系)와도 같이 서러워라!
+가엾은 박쥐여! 멸망(滅亡)하는 겨레여!
+
+운명(運命)의 제단(祭壇)에 가늘게 타는 향(香)불마자 꺼젓거든
+그많은 새즘승에 빌붓칠 애교(愛嬌)라도 가젓단말가?
+상금조(相琴鳥)처럼 고흔 뺨을 채롱에 팔지도 못하는 너는
+
+한토막 꿈조차 못꾸고 다시 동굴(洞窟)로 도라가거니
+가엽슨 빡쥐여! 검은 화석(化石)의 요정(妖精)이여!
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="info-panel" id="infoPanel">
+    <h2>해설</h2>
+    <p>
+        이 시는 어둠 속을 떠도는 박쥐의 형상을 통해, 시대에 버림받고 존재의 소속을 잃은 고독한 자아를 상징적으로 그려내고 있습니다.
+        잊힌 역사, 소외된 민족, 그리고 미완의 정열을 품은 자들의 비극적 운명을 비탄과 연민의 시선으로 노래하고 있습니다.
+        
+        
+    </p>
+
+    <div class="section-title">키워드</div>
+    <div class="keywords">
+
+      <div class="keyword">#박쥐</div>
+      <div class="keyword">#절망</div>
+      <div class="keyword">#민족</div>
+      <div class="keyword">#자아</div>
+    </div>
+
+    <div class="section-title">관련 작품</div>
+    <div>
+      <a href="gohyang.html">잃어진 고향</a><br>
+      <a href="seoul.html">서울</a><br>
+      <a href="namhansanseong.html">남한산성</a>
+    </div>
+  </div>
+
+  <div class="sticky-tip" id="highlightTip">
+    인상 깊은 문장을 드래그해서 하이라이트 해보세요
+  </div>
+
+  <script>
+    function togglePanel() {
+      const panel = document.getElementById("infoPanel");
+      panel.classList.toggle("open");
+    }
+
+    document.addEventListener("DOMContentLoaded", () => {
+      const poem = document.querySelector('.poem');
+      const tip = document.getElementById("highlightTip");
+
+      poem.addEventListener('mouseup', () => {
+        const selection = window.getSelection();
+        const selectedText = selection.toString();
+        if (selectedText.length > 0 && selection.rangeCount > 0) {
+          const range = selection.getRangeAt(0);
+          const span = document.createElement("span");
+          span.className = "highlight";
+          span.textContent = selectedText;
+          range.deleteContents();
+          range.insertNode(span);
+          selection.removeAllRanges();
+        }
+      });
+
+      poem.addEventListener('click', (e) => {
+        if (e.target.classList.contains("highlight")) {
+          const parent = e.target.parentNode;
+          parent.replaceChild(document.createTextNode(e.target.textContent), e.target);
+        }
+      });
+
+      tip.addEventListener("click", () => {
+        tip.style.display = "none";
+      });
+    });
+  </script>
+</body>
+</html>

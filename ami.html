@@ -1,0 +1,337 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <title>아미</title>
+  <link rel="icon" href="favicon.png" type="image/png">
+  <link href="https://fonts.googleapis.com/css2?family=Orbit&display=swap" rel="stylesheet">
+  <style>
+    @font-face {
+      font-family: 'BookkMyungjo-Bd';
+      src: url('https://fastly.jsdelivr.net/gh/projectnoonnu/noonfonts_2302@1.0/BookkMyungjo-Bd.woff2') format('woff2');
+      font-weight: 700;
+      font-style: normal;
+    }
+
+    html, body {
+      margin: 0;
+      font-family: 'BookkMyungjo-Bd', serif;
+      color: #fff;
+      background: url('31.jpg') no-repeat center center fixed;
+      background-size: cover;
+      word-break: keep-all;
+    }
+
+    .overlay {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100vh;
+      background-color: rgba(0, 0, 0, 0.4);
+      z-index: 0;
+    }
+
+    nav {
+      position: sticky;
+      top: 0;
+      z-index: 3000;
+      padding: 1.5rem 0;
+      background: linear-gradient(rgba(0, 0, 0, 0.9), rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.3), rgba(0, 0, 0, 0.0));
+    }
+
+    .navbar-container {
+      width: 1000px;
+      margin: 0 auto;
+      padding: 0 2rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .logo a {
+      font-size: 1.5rem;
+      font-weight: 700;
+      color: #fff;
+      text-decoration: none;
+      letter-spacing: -0.5px;
+    }
+
+    .navbar {
+      display: flex;
+      gap: 2rem;
+      list-style: none;
+      padding: 0;
+      margin: 0;
+    }
+
+    .navbar a {
+      font-size: 1.5rem;
+      text-decoration: none;
+      color: #fff;
+      opacity: 1;
+      transition: opacity 0.3s ease;
+    }
+
+    body.index .navbar a:hover { opacity: 0.5; }
+    body.page .navbar a { opacity: 0.5; }
+    body.page .navbar a.active {
+      opacity: 1;
+      font-weight: 700;
+      pointer-events: none;
+    }
+
+    .toggle-btn {
+      position: fixed;
+      top: 5.5rem;
+      right: 1.5rem;
+      background: #fff;
+      color: #111;
+      border: none;
+      padding: 0.5rem 1rem 0.65rem 1rem;
+      font-size: 0.9rem;
+      cursor: pointer;
+      border-radius: 4px;
+      z-index: 2500;
+      font-family: 'Orbit', sans-serif;
+    }
+
+    .toggle-btn::after {
+      content: ' ▶';
+      font-size: 0.85rem;
+    }
+
+    .container {
+      display: flex;
+      position: relative;
+      z-index: 1;
+    }
+
+    .content {
+      flex: 1;
+      padding: 8vw 5vw;
+      box-sizing: border-box;
+      position: relative;
+      z-index: 1;
+    }
+
+    .wrap {
+      width: 1000px;
+      margin: auto;
+      padding-bottom: 8vh;
+      position: relative;
+      z-index: 1;
+    }
+
+    .title {
+      font-size: clamp(2.5rem, 6vw, 5rem);
+      margin-bottom: 2rem;
+    }
+
+    .poem {
+      font-size: 1.8vw;
+      line-height: 1.8;
+      white-space: pre-line;
+      word-break: keep-all;
+    }
+
+    .info-panel {
+      position: fixed;
+      top: 0;
+      right: 0;
+      width: 400px;
+      height: 100vh;
+      background-color: rgba(34, 34, 34, 0.85);
+      backdrop-filter: blur(12px);
+      padding: 6rem 2rem 4rem;
+      box-sizing: border-box;
+      transform: translateX(100%);
+      transition: transform 0.4s ease;
+      overflow-y: auto;
+      z-index: 2000;
+      font-family: 'Orbit', sans-serif;
+      font-size: 1rem;
+      line-height: 1.8;
+      color: #fff;
+      background-image: linear-gradient(rgba(255,255,255,0.05) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,0.05) 1px, transparent 1px);
+      background-size: 20px 20px;
+    }
+
+    .info-panel.open {
+      transform: translateX(0%);
+    }
+
+    .info-panel h2 {
+      font-size: 1.8rem;
+      margin-bottom: 1.2rem;
+      font-family: 'BookkMyungjo-Bd', serif;
+    }
+
+    .section-title {
+      font-size: 1rem;
+      margin-top: 2rem;
+      margin-bottom: 0.6rem;
+      font-weight: bold;
+      color: #ccc;
+    }
+
+    .keywords {
+      display: flex;
+      gap: 0.5rem;
+      flex-wrap: wrap;
+      margin-bottom: 2rem;
+    }
+
+    .keyword {
+      background-color: #444;
+      padding: 0.4rem 0.8rem;
+      border-radius: 16px;
+      font-size: 0.85rem;
+      color: #eee;
+    }
+
+    .info-panel a {
+      color: #4fc3f7;
+      text-decoration: none;
+    }
+
+    .info-panel a:hover {
+      text-decoration: underline;
+    }
+
+    .sticky-tip {
+      position: sticky;
+      bottom: 3rem;
+      top: 1rem;
+      z-index: 9999;
+      text-align: center;
+      color: #fff;
+      background: rgba(0, 0, 0, 0.6);
+      font-family: 'Orbit', sans-serif;
+      font-size: 0.9rem;
+      padding: 0.6rem 1.2rem;
+      border-radius: 20px;
+      width: fit-content;
+      margin: 0 auto;
+    }
+
+    .highlight {
+      background-color: rgba(255, 255, 0, 0.4);
+      color: inherit;
+      transition: background-color 0.3s ease;
+    }
+  </style>
+</head>
+<body>
+  <div class="overlay"></div>
+
+  <nav>
+    <div class="navbar-container">
+      <div class="logo"><a href="index.html">이원록에서 이육사까지</a></div>
+      <ul class="navbar">
+        <li><a href="timeline.html">연보</a></li>
+        <li><a href="works.html">작품</a></li>
+      </ul>
+    </div>
+  </nav>
+
+  <button class="toggle-btn" onclick="togglePanel()">설명 보기</button>
+
+  <div class="container">
+    <div class="content">
+      <div class="wrap">
+        <div class="title">아미</div>
+        <div class="poem">
+향수(鄕愁)에 철나면 눈섶이 기나니요
+바다랑 바람이랑 그 사이 태어났고
+나라마다 어진 풍속에 자랐겠죠.
+
+짓푸른 깁장(帳)을 나서면 그 몸매
+하이얀 깃옷은 휘둘러 눈부시고
+정녕 「왈쓰」라도 추실란가봐요.
+
+햇살같이 펼쳐진 부채는 감춰도
+도톰한 손결야 교소(驕笑)를 가루어서
+공주의 홀(笏)보다 깨끗이 떨리오.
+
+언제나 모듬에 지쳐서 돌아오면
+꽃다발 향기조차 기억만 서러워라
+찬 젓대소리에다 옷끈을 흘려보내고.
+
+촛불처럼 타오른 가슴속 사념(思念)은
+진정 누구를 애끼시는 속죄(贖罪)라오
+발 아래 가득히 황혼이 나우리치오
+
+달빛은 서늘한 원주(圓柱)아래 듭시면
+장미(薔薇)쩌 이고 장미쪄 흩으시고
+아련히 가시는 곳 그 어딘가 보이오.
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="info-panel" id="infoPanel">
+    <h2>해설</h2>
+    <p>
+        이 시는 이국적이고 우아한 여인의 이미지 속에 깃든 향수와 동경, 그리고 사라져가는 아름다움에 대한 회한을 담은 서정시입니다.
+    </p>
+
+    <div class="section-title">키워드</div>
+    <div class="keywords">
+      <div class="keyword">#아미</div>
+      <div class="keyword">#이국</div>
+      <div class="keyword">#우아</div>
+      <div class="keyword">#왈쓰</div>
+      <div class="keyword">#장미</div>
+    </div>
+
+    <div class="section-title">관련 작품</div>
+    <div>
+      <a href="banmyo.html">반묘</a><br>
+      <a href="park.html">소공원</a><br>
+      <a href="ahpyeon.html">아편</a>
+    </div>
+  </div>
+
+  <div class="sticky-tip" id="highlightTip">
+    인상 깊은 문장을 드래그해서 하이라이트 해보세요
+  </div>
+
+  <script>
+    function togglePanel() {
+      const panel = document.getElementById("infoPanel");
+      panel.classList.toggle("open");
+    }
+
+    document.addEventListener("DOMContentLoaded", () => {
+      const poem = document.querySelector('.poem');
+      const tip = document.getElementById("highlightTip");
+
+      poem.addEventListener('mouseup', () => {
+        const selection = window.getSelection();
+        const selectedText = selection.toString();
+        if (selectedText.length > 0 && selection.rangeCount > 0) {
+          const range = selection.getRangeAt(0);
+          const span = document.createElement("span");
+          span.className = "highlight";
+          span.textContent = selectedText;
+          range.deleteContents();
+          range.insertNode(span);
+          selection.removeAllRanges();
+        }
+      });
+
+      poem.addEventListener('click', (e) => {
+        if (e.target.classList.contains("highlight")) {
+          const parent = e.target.parentNode;
+          parent.replaceChild(document.createTextNode(e.target.textContent), e.target);
+        }
+      });
+
+      tip.addEventListener("click", () => {
+        tip.style.display = "none";
+      });
+    });
+  </script>
+</body>
+</html>
