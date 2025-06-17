@@ -1,0 +1,596 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <title>264 - 이육사 작품</title>
+  <link rel="icon" href="favicon.png" type="image/png">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Orbit&display=swap" rel="stylesheet">
+  <style>
+    @font-face {
+      font-family: 'BookkMyungjo-Bd';
+      src: url('https://fastly.jsdelivr.net/gh/projectnoonnu/noonfonts_2302@1.0/BookkMyungjo-Bd.woff2') format('woff2');
+      font-weight: 700;
+      font-style: normal;}
+    html, body {
+      margin: 0;
+      padding: 0;
+      font-family: 'Orbit', sans-serif;
+      background-color: #111;
+      color: #fff;
+      line-height: 1.7;
+      word-break: keep-all;
+      background-image: 
+        linear-gradient(to right, rgba(255, 255, 255, 0.05) 1px, transparent 1px),
+        linear-gradient(to bottom, rgba(255, 255, 255, 0.05) 1px, transparent 1px);
+      background-size: 25px 25px;
+    }
+
+    nav {
+      position: sticky;
+      top: 0;
+      z-index: 3000;
+      padding: 1rem 0;
+      background: linear-gradient(to bottom, rgba(0, 0, 0, 0.95), rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0));
+      backdrop-filter: blur(10px); 
+    }
+    
+    .navbar-container {
+      width: 1000px;
+      margin: 0 auto;
+      padding: 0 2rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .logo a {
+      font-family: 'BookkMyungjo-Bd', serif;
+      font-size: 1.5rem;
+      font-weight: 700;
+      color: #ffffff;
+      text-decoration: none;
+      letter-spacing: -0.5px;
+    }
+
+    .navbar {
+      display: flex;
+      gap: 2rem;
+      list-style: none;
+      padding: 0;
+      margin: 0;
+    }
+
+    .navbar a {
+  font-family: 'BookkMyungjo-Bd', serif;
+  font-size: 1.5rem;
+  text-decoration: none;
+  color: rgba(255, 255, 255, 1);
+  opacity: 1; 
+  transition: opacity 0.3s ease;
+}
+    body.index .navbar a:hover {opacity: 0.5;  }
+    body.page .navbar a { opacity: 0.5; }
+    body.page .navbar a.active {
+      opacity: 1;
+      font-weight: 700;
+      pointer-events: none;}
+
+      .logo a,
+      .navbar a,
+      figcaption,
+      img,
+      .floating-footer,
+      .line-overlay,
+      .loading-screen img,
+      .img,.typing,
+      .loading-text {user-select: none;}
+   .wrap{max-width: 1000px;margin: auto;}
+    .work-section {
+      display: flex;
+      justify-content: center;
+      padding: 2rem 2rem;
+    }
+    .work-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 5rem;
+    padding: 2rem 2rem;
+    position: relative;
+    max-width: 1200px;
+    margin: auto;
+  }
+  .work-card {
+  aspect-ratio: 3 / 4;
+  position: relative;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.work-card:hover {
+  transform: translateY(-10px) scale(1.03);
+  box-shadow: 0 10px 20px rgba(1, 1, 1, 0.2);
+}
+
+.card-inner {
+  width: 100%;
+  height: 100%;
+  position: relative;
+}
+
+.card-front {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  border-radius: 6px;
+  font-family: 'BookkMyungjo-Bd', serif;
+  font-size: 1.4rem;
+  text-align: center;
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  color: white;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-shadow: 
+    0 0 5px rgba(0,0,0,1),
+    0 0 10px rgba(0,0,0,0.8),
+    0 0 20px rgba(0,0,0,0.6),
+    2px 2px 4px rgba(0,0,0,0.9);
+  box-shadow: 2px 2px 10px rgba(0,0,0,0.1);
+  border: 1px solid rgb(155, 155, 155);
+  filter: grayscale(100%);
+  transition: filter 0.3s ease;
+}
+
+.work-card:hover .card-front {
+  filter: grayscale(0%);
+}
+
+
+.card-back {
+  display: none;
+}
+
+    .filter-bar {
+  max-width: 1000px;
+  margin: 2rem auto 0 auto;
+  padding: 0 2rem 2rem 2rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 1rem;
+}
+
+.filter-buttons {
+  display: flex;
+  gap: 0.5rem;
+  flex-wrap: wrap;
+}
+
+.filter-buttons button {
+  background: transparent;
+  border: 1px solid #ffffff;
+  color: #fff;
+  padding: 0.4rem 1rem;
+  border-radius: 5px;
+  cursor: pointer;
+  font-family: 'Orbit', sans-serif;
+  font-size: 1rem;
+  transition: background 0.3s, color 0.3s;
+  padding-top: 0.3rem;
+  padding-bottom: 0.5rem;
+}
+
+
+.filter-buttons button:hover,
+.filter-buttons button.active {
+  background: #fff;
+  color: #111;
+}
+
+.search-box input {
+  padding: 0.4rem 1rem;
+  border-radius: 5px;
+  border-bottom: 5px ;
+  border: none;
+  background-color: #222;
+  color: #fff;
+  font-family: 'Orbit', sans-serif;
+  font-size: 1rem;
+  border: 1px solid #ffffff;
+}
+.search-box input {
+  padding-top: 0.3rem;
+  padding-bottom: 0.5rem;
+}
+
+  </style>
+</head>
+<body>
+
+  <nav>
+    <div class="navbar-container">
+      <div class="logo"><a href="index.html">이원록에서 이육사까지</a></div>
+      <ul class="navbar">
+        <li><a href="timeline.html" class="nav-link">연보</a></li>
+        <li><a href="works.html" class="nav-link">작품</a></li>
+      </ul>
+    </div>
+  </nav>
+  <div class="filter-bar">
+    <div class="filter-buttons">
+      <button data-type="all" class="active">전체</button>
+      <button data-type="poem">시</button>
+      <button data-type="classic">한시</button>
+      <button data-type="essay">수필</button>
+    </div>
+    <div class="search-box">
+      <input type="text" placeholder="작품 제목 검색">
+    </div>
+  </div>
+  
+
+  <section class="work-section wrap">
+    <div class="work-grid">
+    
+      <a href="cheongpodo.html" class="work-card" style="text-decoration: none;">
+        <div class="card-inner" style="transition-duration: 0.8s;">
+          <div class="card-front"style="background-image: url('cheongpodo.jpg');"><h3>청포도</h3></div>
+          <div class="card-back">고향과 자유를 그리워하며 희망을 상징하는 청포도를 노래한 시.</div>
+        </div>
+      </a>
+      <a href="hwanghon.html" class="work-card" style="--color: #b9c7fe; text-decoration: none;">
+        <div class="card-inner" style="transition-duration: 1.4s;">
+          <div class="card-front"style="background-image: url('hwanghon.jpg');"><h3>황혼</h3></div>
+          <div class="card-back">하루의 끝에서 오는 정적과 사색을 담아낸 시.</div>
+        </div>
+      </a>
+      
+      <a href="gang.html" class="work-card" style="--color: #a7116d; text-decoration: none;">
+        <div class="card-inner" style="transition-duration: 0.8s;">
+          <div class="card-front"style="background-image: url('20.jpg');"><h3>강 건너 간 노래</h3></div>
+          <div class="card-back">건너간 존재와의 거리감, 그리움.</div>
+        </div>
+      </a>
+      
+      <a href="jayagok.html" class="work-card" style="--color: #1a745f; text-decoration: none;">
+        <div class="card-inner" style="transition-duration: 0.8s;">
+          <div class="card-front"style="background-image: url('jayagok.jpg');"><h3>자야곡</h3></div>
+          <div class="card-back">밤의 정취와 그리움을 담은 서정시.</div>
+        </div>
+      </a>
+      
+      <a href="gwangya.html" class="work-card" style="--color: #e92e56; text-decoration: none;">
+        <div class="card-inner" style="transition-duration: 0.5s;">
+          <div class="card-front"style="background-image: url('gwangya.jpg');"><h3>광야</h3></div>
+          <div class="card-back">민족의 광야에서 자유를 외치는 저항시.</div>
+        </div>
+      </a>
+      
+      <a href="kkot.html" class="work-card" style="--color: #14c9c5; text-decoration: none;">
+        <div class="card-inner" style="transition-duration: 0.8s;">
+          <div class="card-front"style="background-image: url('kkot.jpg');"><h3>꽃</h3></div>
+          <div class="card-back">간결하지만 강렬한 생명력의 상징.</div>
+        </div>
+      </a>
+            
+      <a href="horse.html" class="work-card" style="--color: #c970be; text-decoration: none;">
+        <div class="card-inner" style="transition-duration: 0.8s;">
+          <div class="card-front"style="background-image: url('horse.jpg');"><h3>말</h3></div>
+          <div class="card-back">말을 통한 사유와 시대적 표현이 엿보이는 작품.</div>
+        </div>
+      </a>
+
+      <a href="nojeong.html" class="work-card" style="--color: #7a4c21; text-decoration: none;">
+        <div class="card-inner" style="transition-duration: 1.4s;">
+          <div class="card-front"style="background-image: url('nojeong.jpg');"><h3>노정기</h3></div>
+          
+        </div>
+      </a>
+      <a href="chunsu.html" class="work-card" style="--color: #a2455e;; text-decoration: none;">
+        <div class="card-inner" style="transition-duration: 1.4s;">
+          <div class="card-front"style="background-image: url('44.jpg');"><h3>춘수삼제</h3></div>
+        </div>
+      </a>
+      <a href="silje.html" class="work-card" style="--color:#27b5cf;; text-decoration: none;">
+        <div class="card-inner" style="transition-duration: 1.4s;">
+          <div class="card-front"style="background-image: url('23.jpg');"><h3>실제</h3></div>
+        </div>
+      </a>  
+      <a href="jeoljeong.html" class="work-card" style="--color:#27b5cf;; text-decoration: none;">
+        <div class="card-inner" style="transition-duration: 1.4s;">
+          <div class="card-front"style="background-image: url('jeoljeong.jpg');"><h3>절정</h3></div>
+        </div>
+      </a>
+      <a href="star.html" class="work-card" style="--color:#27b5cf;; text-decoration: none;">
+        <div class="card-inner" style="transition-duration: 1.4s;">
+          <div class="card-front"style="background-image: url('3.jpg');" ><h3>한 개의 별을 노래하자</h3></div>
+        </div>
+      </a>
+      <a href="haejosa.html" class="work-card" style="--color:#27b5cf;; text-decoration: none;">
+        <div class="card-inner" style="transition-duration: 1.4s;">
+          <div class="card-front"style="background-image: url('39.jpg');"><h3>해조사</h3></div>
+        </div>
+      </a>
+      
+      <a href="choga.html" class="work-card" style="--color:#27b5cf;; text-decoration: none;">
+        <div class="card-inner" style="transition-duration: 1.4s;">
+          <div class="card-front"style="background-image: url('16.jpg')"><h3>초가</h3></div>
+        </div>
+      </a>
+      <a href="park.html" class="work-card" style="--color:#27b5cf;; text-decoration: none;">
+        <div class="card-inner" style="transition-duration: 1.4s;">
+          <div class="card-front"style="background-image: url('54.jpg')"><h3>소공원</h3></div>
+        </div>
+      </a>
+      <a href="ahpyeon.html" class="work-card" style="--color:#27b5cf;; text-decoration: none;">
+        <div class="card-inner" style="transition-duration: 1.4s;">
+          <div class="card-front"style="background-image: url('11.jpg')"><h3>아편</h3></div>
+        </div>
+      </a>
+      <a href="yeonbo.html" class="work-card" style="--color:#27b5cf;; text-decoration: none;">
+        <div class="card-inner" style="transition-duration: 1.4s;">
+          <div class="card-front"style="background-image: url('26.jpg')"><h3>연보</h3></div>
+        </div>
+      </a>
+      <a href="boy.html" class="work-card" style="--color:#27b5cf;; text-decoration: none;">
+        <div class="card-inner" style="transition-duration: 1.4s;">
+          <div class="card-front"style="background-image: url('33.jpg')"><h3>소년에게</h3></div>
+        </div>
+      </a>
+      <a href="namhansanseoung.html" class="work-card" style="--color:#27b5cf;; text-decoration: none;">
+        <div class="card-inner" style="transition-duration: 1.4s;">
+          <div class="card-front"style="background-image: url('24.jpg')"><h3>남한산성</h3></div>
+        </div>
+      </a>            
+      <a href="hosu.html" class="work-card" style="--color:#27b5cf;; text-decoration: none;">
+        <div class="card-inner" style="transition-duration: 1.4s;">
+          <div class="card-front"style="background-image: url('40.jpg')"><h3>호수</h3></div>
+        </div>
+      </a>            
+      <a href="banmyo.html" class="work-card" style="text-decoration: none;">
+        <div class="card-inner" style="transition-duration: 1.4s;">
+          <div class="card-front"style="background-image: url('9.jpg')"><h3>반묘</h3></div>
+        </div>
+      </a>            
+      
+      <a href="madsun.html" class="work-card" style="text-decoration: none;">
+        <div class="card-inner" style="transition-duration: 1.4s;">
+          <div class="card-front"style="background-image: url('41.jpg')"><h3>광인의 태양</h3></div>
+        </div>
+      </a>            
+                             
+      <a href="ilsik.html" class="work-card" style="text-decoration: none;">
+        <div class="card-inner" style="transition-duration: 1.4s;">
+          <div class="card-front"style="background-image: url('21.jpg')"><h3>일식</h3></div>
+        </div>
+      </a>  
+      <a href="old_tree.html" class="work-card" style="text-decoration: none;">
+        <div class="card-inner" style="transition-duration: 1.4s;">
+          <div class="card-front"style="background-image: url('18.jpg')"><h3>교목</h3></div>
+        </div>
+      </a>            
+      <a href="westwind.html" class="work-card" style="text-decoration: none;">
+        <div class="card-inner" style="transition-duration: 1.4s;">
+          <div class="card-front"style="background-image: url('28.jpg')"><h3>서풍</h3></div>
+        </div>
+      </a>            
+      <a href="dokback.html" class="work-card" style="text-decoration: none;">
+        <div class="card-inner" style="transition-duration: 1.4s;">
+          <div class="card-front"style="background-image: url('4.jpg')"><h3>독백</h3></div>
+        </div>
+      </a>  
+      <a href="ami.html" class="work-card" style="text-decoration: none;">
+        <div class="card-inner" style="transition-duration: 1.4s;">
+          <div class="card-front"style="background-image: url('31.jpg')"><h3>아미</h3></div>
+        </div>
+      </a>    
+      <a href="seoul.html" class="work-card" style="text-decoration: none;">
+        <div class="card-inner" style="transition-duration: 1.4s;">
+          <div class="card-front"style="background-image: url('6.jpg')"><h3>서울</h3></div>
+        </div>
+      </a>  
+      <a href="pacho.html" class="work-card" style="text-decoration: none;">
+        <div class="card-inner" style="transition-duration: 1.4s;">
+          <div class="card-front"style="background-image: url('50.jpg')"><h3>파초</h3></div>
+        </div>
+      </a>
+      <a href="mymuse.html" class="work-card" style="text-decoration: none;">
+        <div class="card-inner" style="transition-duration: 1.4s;">
+          <div class="card-front"style="background-image: url('14.jpg')"><h3>나의 뮤즈</h3></div>
+        </div>
+      </a> 
+      <a href="haehu.html" class="work-card" style="text-decoration: none;">
+        <div class="card-inner" style="transition-duration: 1.4s;">
+          <div class="card-front"style="background-image: url('8.jpg')"><h3>해후</h3></div>
+        </div>
+      </a>   
+      <a href="san.html" class="work-card" style="text-decoration: none;">
+        <div class="card-inner" style="transition-duration: 1.4s;">
+          <div class="card-front"style="background-image: url('22.jpg')"><h3>산</h3></div>
+        </div>
+      </a>  
+      <a href="gohyang.html" class="work-card" style="text-decoration: none;">
+        <div class="card-inner" style="transition-duration: 1.4s;">
+          <div class="card-front"style="background-image: url('29.jpg')"><h3>잃어진 고향</h3></div>
+        </div>
+      </a> 
+      <a href="pyeonbok.html" class="work-card" style="text-decoration: none;">
+        <div class="card-inner" style="transition-duration: 1.4s;">
+          <div class="card-front"style="background-image: url('2.jpg')"><h3>편복</h3></div>
+        </div>
+      </a> 
+      <a href="muje.html" class="work-card" style="text-decoration: none;">
+        <div class="card-inner" style="transition-duration: 1.4s;">
+          <div class="card-front"style="background-image: url('34.jpg')"><h3>무제</h3></div>
+        </div>
+      </a>              
+      <a href="hansi1.html" class="work-card" data-type="classic" style="text-decoration: none;">
+        <div class="card-inner" style="transition-duration: 1.4s;">
+          <div class="card-front"style="background-image: url('30.jpg')"><h3>謹賀 石庭先生 六旬</h3></div>
+        </div>
+      </a>              
+      <a href="hansi2.html" class="work-card" data-type="classic" style="--color: #5f4b8b; text-decoration: none;">
+        <div class="card-inner">
+          <div class="card-front"style="background-image: url('15.jpg')"><h3>晩登東山</h3></div>
+        </div>
+      </a>
+      
+      <a href="hansi3.html" class="work-card" data-type="classic" style="--color: #008b8b; text-decoration: none;">
+        <div class="card-inner">
+          <div class="card-front"style="background-image: url('53.jpg')"><h3>酒暖興餘</h3></div>
+        </div>
+      </a>
+      <a href="season5.html" class="work-card" data-type="essay" style="--color: #bc6c25; text-decoration: none;">
+        <div class="card-inner">
+          <div class="card-front"style="background-image: url('13.jpg')"><h3>계절의 오행</h3></div>
+        </div>
+      </a>
+      
+      <a href="seasons.html" class="work-card" data-type="essay" style="--color: #606c38; text-decoration: none;">
+        <div class="card-inner">
+          <div class="card-front"style="background-image: url('46.jpg')"><h3>계절의 표정</h3></div>
+          
+        </div>
+      </a>
+      
+      <a href="refill.html" class="work-card" data-type="essay" style="--color: #9d4edd; text-decoration: none;">
+        <div class="card-inner">
+          <div class="card-front"style="background-image: url('25.jpg')"><h3>나의 대용품 현주, 냉광</h3></div>
+        
+        </div>
+      </a>
+      
+      <a href="muhee.html" class="work-card" data-type="essay" style="--color: #d00000; text-decoration: none;">
+        <div class="card-inner">
+          <div class="card-front"style="background-image: url('45.jpg')"><h3>무희의 봄을 찾아서</h3></div>
+        </div>
+      </a>
+      
+      <a href="note.html" class="work-card" data-type="essay" style="--color: #588157; text-decoration: none;">
+        <div class="card-inner">
+          <div class="card-front"style="background-image: url('35.jpg')"><h3>문외한의 수첩</h3></div>
+        </div>
+      </a>
+      
+      <a href="sansagi.html" class="work-card" data-type="essay" style="--color: #7c3aed; text-decoration: none;">
+        <div class="card-inner">
+          <div class="card-front"style="background-image: url('10.jpg')"><h3>산사기</h3></div>
+        </div>
+      </a>
+      
+      <a href="yeonroon.html" class="work-card" data-type="essay" style="--color: #fb8500; text-decoration: none;">
+        <div class="card-inner">
+          <div class="card-front"style="background-image: url('19.jpg')"><h3>연륜</h3></div>
+        </div>
+      </a>
+      
+      <a href="yeoningi.html" class="work-card" data-type="essay" style="--color: #219ebc; text-decoration: none;">
+        <div class="card-inner">
+          <div class="card-front"style="background-image: url('51.jpg')"><h3>연인기</h3></div>
+        </div>
+      </a>
+      
+      <a href="eunhasu.html" class="work-card" data-type="essay" style="--color: #8338ec; text-decoration: none;">
+        <div class="card-inner">
+          <div class="card-front"style="background-image: url('43.jpg')"><h3>은하수</h3></div>
+      
+        </div>
+      </a>
+      
+      <a href="junjogi.html" class="work-card" data-type="essay" style="--color: #ff5d8f; text-decoration: none;">
+        <div class="card-inner">
+          <div class="card-front"style="background-image: url('32.jpg')"><h3>전조기</h3></div>
+        </div>
+      </a>
+      
+      <a href="jilltoo.html" class="work-card" data-type="essay" style="--color: #f28482; text-decoration: none;">
+        <div class="card-inner">
+          <div class="card-front"style="background-image: url('42.jpg')"><h3>질투의 반군성</h3></div>
+        </div>
+      </a>
+      
+      <a href="changgong.html" class="work-card" data-type="essay" style=" text-decoration: none;">
+        <div class="card-inner">
+          <div class="card-front"style="background-image: url('52.jpg')"><h3>창공에 그리는 마음</h3></div>
+        </div>
+      </a>
+      
+      <a href="chunglanmong.html" class="work-card" data-type="essay" style="--color: #ffb703; text-decoration: none;">
+        <div class="card-inner">
+          <div class="card-front"style="background-image: url('37.jpg')"><h3>청란몽</h3></div>
+        </div>
+      </a>
+      
+      <a href="ha.html" class="work-card" data-type="essay" style="--color: #3a86ff; text-decoration: none;">
+        <div class="card-inner">
+          <div class="card-front"style="background-image: url('12.jpg')"><h3>횡액</h3></div>
+        </div>
+      </a>   
+    </div>
+    </section> 
+    <footer style="text-align: center; padding: 2rem 0; color: white; font-size: 0.9rem;">
+      &copy; 2025 264 Archive. 한평강 모든 권리 보유.
+    </footer>
+  </body>
+</html>
+
+
+    <script>
+      const searchInput = document.querySelector('.search-box input');
+      const cards = document.querySelectorAll('.work-card');
+      const filterButtons = document.querySelectorAll('.filter-buttons button');
+    
+      let activeType = "all";
+    
+      function filterCards() {
+        const keyword = searchInput.value.toLowerCase().trim();
+    
+        cards.forEach(card => {
+          const title = card.querySelector('.card-front h3').textContent.toLowerCase();
+          const type = card.dataset.type || "poem"; 
+          const matchType = (activeType === "all" || type === activeType);
+          const matchKeyword = title.includes(keyword);
+    
+          if (matchType && matchKeyword) {
+            card.style.display = "block";
+          } else {
+            card.style.display = "none";
+          }
+        });
+      }
+    
+      searchInput.addEventListener("input", filterCards);
+    
+      filterButtons.forEach(button => {
+        button.addEventListener("click", () => {
+
+          filterButtons.forEach(btn => btn.classList.remove("active"));
+          button.classList.add("active");
+    
+          activeType = button.dataset.type;
+          filterCards();
+        });
+      });
+      const path = window.location.pathname;
+  const links = document.querySelectorAll('.nav-link');
+
+  links.forEach(link => {
+    if (path.includes(link.getAttribute('href'))) {
+      link.classList.add('active');
+      document.body.classList.add('page');
+    }
+  });
+
+  // 메인페이지일 경우
+  if (path === '/' || path.includes('index')) {
+    document.body.classList.add('index');
+  }
+    </script>
+    
+  
+</body>
+</html>
