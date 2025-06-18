@@ -1,0 +1,577 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <title>264 Archive</title>
+  <link rel="icon" href="favicon.png" type="image/png">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Orbit&display=swap" rel="stylesheet">
+
+  <style>
+    @font-face {
+      font-family: 'BookkMyungjo-Bd';
+      src: url('https://fastly.jsdelivr.net/gh/projectnoonnu/noonfonts_2302@1.0/BookkMyungjo-Bd.woff2') format('woff2');
+      font-weight: 700;
+      font-style: normal;
+    }
+
+    html {
+      font-family:'BookkMyungjo-Bd', serif;
+      font-weight: 700;
+      font-style: normal;
+      word-break: keep-all;}
+
+    body {
+      margin: 0;
+      padding: 0;
+      background-color: #1a1a1a;
+      color: #ffffff;
+      font-family: 'Orbit', sans-serif;
+      line-height: 1.7;
+      word-break: keep-all;
+      height: 100vh;
+      overflow: hidden;}
+    h1 {
+      font-family: 'Orbit', sans-serif; 
+      font-size: clamp(2rem, 6vw, 4rem);
+      font-weight: 700;
+      margin-bottom: 0.5rem;}
+      p {
+      font-family: 'Orbit', sans-serif; 
+      font-size: clamp(0.8rem, 2vw, 1rem);
+      font-weight: 700;
+      margin-bottom: 2rem;}
+
+
+      nav {
+      position: sticky;
+      top: 0;
+      z-index: 3000;
+      padding: 1rem 0;
+      background: linear-gradient(to bottom, rgba(0, 0, 0, 0.95), rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0));
+      backdrop-filter: blur(10px); 
+    }
+    
+    .navbar-container {
+      width: min(1000px, 90vw);
+      margin: 0 auto;
+      padding: 0 2rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .logo a {
+      font-family: 'BookkMyungjo-Bd', serif;
+      font-size: clamp(1rem, 3vw, 1.5rem);
+      font-weight: 700;
+      color: #ffffff;
+      text-decoration: none;
+      letter-spacing: -0.5px;
+    }
+
+    .navbar {
+      display: flex;
+      gap: 2rem;
+      list-style: none;
+      padding: 0;
+      margin: 0;
+    }
+
+    .navbar a {
+  font-family: 'BookkMyungjo-Bd', serif;
+  font-size: clamp(1rem, 2.5vw, 1.5rem);
+  text-decoration: none;
+  color: rgba(255, 255, 255, 1);
+  opacity: 1; 
+  transition: opacity 0.3s ease;
+}
+    body.index .navbar a:hover {opacity: 0.5;  }
+    body.page .navbar a { opacity: 0.5; }
+    body.page .navbar a.active {
+      opacity: 1;
+      font-weight: 700;
+      pointer-events: none;}
+
+      .logo a,
+      p,
+      .navbar a,
+      figcaption,
+      img,
+      .floating-footer,
+      .line-overlay,
+      .loading-screen,
+      .loading-screen img,
+      .img,
+      .typing,
+      .loading-text {user-select: none;}
+
+    .wrap {width: min(1000px, 90vw);margin: auto;padding: 3rem 1rem 1rem 1rem;}
+    .photo-grid {
+          display: flex;
+          flex-wrap: wrap;
+          justify-content: center; }
+    .photo-grid figure {
+          width: calc(33.33% - clamp(0.5rem, 2vw, 1rem));
+          display: flex;
+          flex-direction: column;
+          align-items: center;
+          margin: 0; 
+          padding-bottom:  1rem;
+          gap: 0.5rem; }
+    figure img {
+          width: clamp(100px, 12vw, 150px);
+          height: auto;
+          object-fit: cover;
+          image-rendering: pixelated;
+          border: 1px solid #ffffff; ;}
+
+    figcaption {
+          font-family: 'BookkMyungjo-Bd', serif;
+          font-size: clamp(0.9rem, 2vw, 1.1rem);
+          color: #ffffff;
+          cursor: pointer;
+          transition: all 0.3s ease;
+          padding: 0.5rem;
+          border-radius: 4px;}
+
+    figcaption:hover {
+      background: rgba(255, 255, 255, 0.1);
+      transform: scale(1.05);
+    }
+
+    .grid-background {
+          background-color: #111;
+          background-image: 
+            linear-gradient(to right, rgba(255, 255, 255, 0.05) 1px, transparent 1px),
+            linear-gradient(to bottom, rgba(255, 255, 255, 0.05) 1px, transparent 1px);
+          background-size: 25px 25px;
+          min-height: 100vh;}
+
+     .typing {
+      overflow: hidden;
+      white-space: nowrap;
+      border-right: 2px solid #ffffff;
+      width: 0;
+      animation: typing 3s steps(12, end) forwards 2.5s, blink 0.7s step-end infinite 2.5s;
+    margin: 0;
+  padding-top: 0.5rem;}
+
+    @keyframes typing {
+      from { width: 0 }
+      to { width: 12ch }}
+
+    @keyframes blink {50% { border-color: transparent }}
+
+
+    @media (max-width: 768px) {
+      .photo-grid figure {
+        width: calc(50% - clamp(0.5rem, 2vw, 1rem));
+      }
+      
+      .navbar {
+        gap: 1rem;
+      }
+      
+      .modal-content {
+        margin: 1rem;
+        padding: 1.5rem;
+      }
+    }
+
+    @media (max-width: 480px) {
+      .photo-grid figure {
+        width: 100%;
+        max-width: 200px;
+      }
+      
+      .navbar {
+        flex-direction: column;
+        gap: 0.5rem;
+      }
+      
+      .navbar-container {
+        flex-direction: column;
+        gap: 1rem;
+      }
+    }
+
+    @keyframes blink {50% { border-color: transparent }}
+
+    .line-overlay {
+      position: fixed;
+      background: rgba(255, 255, 255, 0.2); 
+      z-index: 2000;
+      pointer-events: none;
+      mix-blend-mode: screen;}
+
+    .hline {width: 100%;height: 1px;}
+    .vline {width: 1px;height: 100%;}
+
+    @keyframes slideLineLeft {
+      0% { left: -100%; opacity: 0; }
+      30% { opacity: 1; }
+      50% { left: 0%; opacity: 1; }
+      70% { opacity: 1; }
+      100% { left: 100%; opacity: 0; }}
+
+    @keyframes slideLineRight {
+      0% { left: 100%; opacity: 0; }
+      30% { opacity: 1; }
+      50% { left: 0%; opacity: 1; }
+      70% { opacity: 1; }
+      100% { left: -100%; opacity: 0; }}
+
+    @keyframes slideDown {
+      0% { top: -100%; opacity: 0; }
+      30% { opacity: 1; }
+      50% { top: 0%; opacity: 1; }
+      70% { opacity: 1; }
+      100% { top: 100%; opacity: 0; }}
+
+    @keyframes slideUp {
+      0% { top: 100%; opacity: 0; }
+      30% { opacity: 1; }
+      50% { top: 0%; opacity: 1; }
+      70% { opacity: 1; }
+      100% { top: -100%; opacity: 0; }}
+    @keyframes flicker { 0%, 100% { opacity: 1; }50% { opacity: 0.6; }}
+    .flicker-line {animation: flicker 2s infinite ease-in-out;}
+    .line-overlay:hover {
+      background: rgba(255, 255, 255, 1);
+      filter: drop-shadow(0 0 4px white);}
+    .loading-screen {
+      position: fixed;
+      inset: 0;
+      background-color: #000;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      animation: fadeOut 3s ease forwards;
+      animation-delay: 2s;
+      z-index: 9999;
+    }
+    .loading-inner {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+    .loading-screen img {
+      width: 280px;
+      height: auto;
+      object-fit: contain;
+      animation: imgFade 1.5s ease;
+      margin-bottom: 1.5rem;
+    }
+    .loading-text {
+      font-family: 'BookkMyungjo-Bd', serif;
+      color: #fff;
+      font-size: clamp(0.8rem, 2vw, 1rem);
+      opacity: 0;
+      animation: fadeIn 1s 1s ease forwards;
+      text-align: center;
+      padding: 0 1rem;
+    }
+    @keyframes fadeOut {
+      to {opacity: 0;visibility: hidden; }}
+    @keyframes imgFade {
+      from { opacity: 0; transform: scale(1); }
+      to { opacity: 1; transform: scale(1); }
+    }
+
+    @keyframes fadeIn {to {opacity: 1; }}
+    .floating-footer {
+      position: fixed;
+      bottom: 2rem;
+      right: 2rem;
+      background: rgba(255, 255, 255, 0.1);
+      color: white;
+      font-size: 1.2rem;
+      width: 40px;
+      height: 40px;
+      text-align: center;
+      line-height: 40px;
+      border-radius: 50%;
+      cursor: pointer;
+      backdrop-filter: blur(6px);
+      z-index: 3000;
+      transition: background 0.3s;
+    }
+    .floating-footer:hover {
+      background: rgba(255, 255, 255, 0.3);
+    }
+
+    .footer-popup {
+      position: fixed;
+      bottom: 6rem;
+      right: 2rem;
+      background: #111;
+      color: #fff;
+      padding: 1rem 1.2rem;
+      max-width: 300px;
+      font-size: 0.9rem;
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      display: none;
+      z-index: 3000;
+      line-height: 1.5;
+    }
+    .footer-popup.active {
+      display: block;
+      animation: fadeIn 0.5s ease;
+    }
+
+    /* 모달 스타일 */
+    .modal-overlay {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0, 0, 0, 0.8);
+      backdrop-filter: blur(10px);
+      display: none;
+      justify-content: center;
+      align-items: center;
+      z-index: 5000;
+      animation: modalFadeIn 0.3s ease;
+    }
+
+    .modal-overlay.active {
+      display: flex;
+    }
+
+    .modal-content {
+      background: #1a1a1a;
+      border: 2px solid rgba(255, 255, 255, 0.3);
+      padding: 2rem;
+      max-width: 500px;
+      width: 90%;
+      position: relative;
+      animation: modalSlideIn 0.4s ease;
+      box-shadow: 0 20px 40px rgba(0, 0, 0, 0.5);
+    }
+
+    .modal-close {
+      position: absolute;
+      top: 1rem;
+      right: 1.5rem;
+      background: none;
+      border: none;
+      color: #fff;
+      font-size: 1.5rem;
+      cursor: pointer;
+      opacity: 0.7;
+      transition: opacity 0.3s ease;
+    }
+
+    .modal-close:hover {
+      opacity: 1;
+    }
+
+    .modal-title {
+      font-family: 'BookkMyungjo-Bd', serif;
+      font-size: clamp(1.2rem, 4vw, 1.8rem);
+      color: #fff;
+      margin-bottom: 1rem;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+      padding-bottom: 0.5rem;
+    }
+
+    .modal-description {
+      font-family: 'Orbit', sans-serif;
+      font-size: clamp(0.8rem, 2.5vw, 1rem);
+      line-height: 1.8;
+      color: rgba(255, 255, 255, 0.9);
+      margin-bottom: 0;
+    }
+
+    @keyframes modalFadeIn {
+      from { opacity: 0; }
+      to { opacity: 1; }
+    }
+
+    @keyframes modalSlideIn {
+      from { 
+        opacity: 0; 
+        transform: translateY(-50px) scale(0.9); 
+      }
+      to { 
+        opacity: 1; 
+        transform: translateY(0) scale(1); 
+      }
+    }
+    
+  </style>
+</head>
+<body>
+  <div class="loading-screen">
+    <div class="loading-inner">
+      <img src="s264.png" alt="로딩 이미지" style="width: 800px;">
+      <p class="loading-text">'다시 천고(千古)의 뒤에 / 백마 타고 오는 초인이 있어 / 이 광야에서 목노아 부르게 하리라'</p>
+    </div>
+  </div>
+
+<div class="line-overlay hline flicker-line" style="top: 20%; animation: slideLineLeft 8s ease-in-out infinite; animation-delay: 0s;"></div>
+<div class="line-overlay hline flicker-line" style="top: 40%; animation: slideLineRight 10s ease-in-out infinite; animation-delay: 2s;"></div>
+<div class="line-overlay hline flicker-line" style="top: 60%; animation: slideLineLeft 12s ease-in-out infinite; animation-delay: 4s;"></div>
+<div class="line-overlay hline flicker-line" style="top: 80%; animation: slideLineLeft 15s ease-in-out infinite; animation-delay: 6s;"></div>
+
+<div class="line-overlay vline flicker-line" style="left: 15vw; animation: slideDown 14s ease-in-out infinite; animation-delay: 1s;"></div>
+<div class="line-overlay vline flicker-line" style="left: 40vw; animation: slideUp 11s ease-in-out infinite; animation-delay: 3s;"></div>
+<div class="line-overlay vline flicker-line" style="left: 70vw; animation: slideDown 9s ease-in-out infinite; animation-delay: 5s;"></div>
+<div class="line-overlay vline flicker-line" style="left: 90vw; animation: slideDown 3s ease-in-out infinite; animation-delay: 10s;"></div>
+  <nav>
+    <div class="navbar-container">
+      <div class="logo"><a href="index.html">이원록에서 이육사까지</a></div>
+      <ul class="navbar">
+        <li><a href="timeline.html" class="nav-link">연보</a></li>
+        <li><a href="works.html" class="nav-link">작품</a></li>
+      </ul>
+    </div>
+  </nav>
+  <section class="wrap grid-background">
+    
+    <div class="photo-grid">
+      <figure>
+        <img src="264.png" alt="이육사" style="background-color: #fff">
+        <figcaption data-name="이육사">이육사</figcaption>
+      </figure>
+      <figure>
+        <img src="2642.png" alt="이원록" style="background-color: #fff">
+        <figcaption data-name="이원록">이원록</figcaption>
+      </figure>
+      <figure>
+        <img src="2640.png" alt="이원삼" style="background-color: #fff">
+        <figcaption data-name="이원삼">이원삼</figcaption>
+      </figure>
+      <figure>
+        <img src="2643.png" alt="이활"style="background-color: #fff" >
+        <figcaption data-name="이활">이활</figcaption>
+      </figure>
+      <figure>
+        <img src="2644.png" alt="육사" style="background-color: #fff">
+        <figcaption data-name="육사">육사</figcaption>
+      </figure>
+      <figure>
+        <img src="2645.png" alt="264" style="background-color: #fff">
+        <figcaption data-name="264">264</figcaption>
+      </figure>
+    </div>
+    <h1 class="typing">264 Archive</h1>
+    <p>이육사(본명 이원록, 1904~1944)는 시인이자 독립운동가로, 일제강점기의 암흑 속에서 총과 펜을 함께 들었던 인물입니다.<br>
+      의열단을 비롯한 항일무장투쟁에 가담하여 민족 해방을 위해 몸을 던졌고, 「청포도」, 「절정」, 「광야」 등을 통해 조국의 고통과 희망, 절정과 초월의 미학을 동시에 노래했습니다.
+      본 사이트는 이육사의 삶을 통해 우리가 잊지 말아야 할 시대의 얼굴을 담고자 합니다.</p>
+  </section>
+  <div class="music-control" onclick="toggleMusic()">
+    <span id="music-icon">▶</span>
+  </div>
+  <!-- 모달 -->
+  <div class="modal-overlay" id="nameModal">
+    <div class="modal-content">
+      <button class="modal-close" onclick="closeModal()">&times;</button>
+      <h2 class="modal-title" id="modalTitle"></h2>
+      <p class="modal-description" id="modalDescription"></p>
+    </div>
+  </div>
+
+  <div class="floating-footer" onclick="document.querySelector('.footer-popup').classList.toggle('active')">
+    ⓘ
+  </div>
+  
+  <div class="footer-popup">
+    <p><strong>264 Archive</strong><br>
+    &copy;2025 한평강 모든 권리보유.<br>
+   정보 및 자료 출처: 이육사 문학관
+    </p>
+  </div>
+  <script>
+    const path = window.location.pathname;
+    const links = document.querySelectorAll('.nav-link');
+  
+    links.forEach(link => {
+      if (path.includes(link.getAttribute('href'))) {
+        link.classList.add('active');
+        document.body.classList.add('page');
+      }
+    });
+  
+    // 메인페이지일 경우
+    if (path === '/' || path.includes('index')) {
+      document.body.classList.add('index');
+    }
+
+    // 이름 정보 데이터
+    const nameInfo = {
+      '이육사': {
+        title: '이육사 (李陸史)',
+        description: '1935년 6월 이후 거의 대부분 이육사(李陸史)가 사용되었습니다.'
+      },
+      '이원록': {
+        title: '이원록 (李源錄)',
+        description: '이육사의 본명으로, 가족들과 고향 사람들에게는 이 본명으로 불렸습니다.'
+      },
+      '이원삼': {
+        title: '이원삼 (李源三)',
+        description: '어릴 때 이름이 원삼(源三)이었습니다. 만 18세가 되던 1922년, 영천 백학학원에 다닐 때도 원삼이라는 이름이 사용되었다고 동기생 정연활이 증언했습니다.'
+      },
+      '이활': {
+        title: '이활 (李活)',
+        description: '이육사의 또 다른 필명입니다. "활"이라는 글자에는 "살아있다", "생동한다"는 의미가 담겨 있어, 절망적인 현실 속에서도 꺾이지 않는 생명력과 의지를 상징합니다. 이는 그의 시 세계에 나타나는 강인한 정신력과도 맥을 같이 합니다.'
+      },
+      '육사': {
+        title: '육사(陸史)',
+        description: '1932년 의열단(義烈團)이 설립한 조선혁명군사정치간부학교의 제1기생 입학 명단에 육사(陸史)로 나타납니다. 처음에는 고기 육(肉) 설사할 사(瀉)라는 이름을, 바로 이어서 죽일 육(戮) , 역사 사(史) 육사(戮史)를 사용했습니다.'
+      },
+      '264': {
+        title: '264 (二六四)',
+        description: '1927년 장진홍 의거 사건으로 대구형무소에 수감되었을 때 받은 번호로, 이후 그는 이를 필명으로 사용하기도 했습니다. 숫자 "264"는 그의 투옥 경험과 저항정신을 상징하는 대표적인 기호가 되었으며, 현재도 그를 기리는 중요한 상징으로 사용됩니다.'
+      }
+    };
+
+    // 모달 열기 함수
+    function openModal(name) {
+      const modal = document.getElementById('nameModal');
+      const title = document.getElementById('modalTitle');
+      const description = document.getElementById('modalDescription');
+      
+      if (nameInfo[name]) {
+        title.textContent = nameInfo[name].title;
+        description.textContent = nameInfo[name].description;
+        modal.classList.add('active');
+      }
+    }
+
+    // 모달 닫기 함수
+    function closeModal() {
+      const modal = document.getElementById('nameModal');
+      modal.classList.remove('active');
+    }
+
+    // 이름 클릭 이벤트 추가
+    document.querySelectorAll('figcaption[data-name]').forEach(caption => {
+      caption.addEventListener('click', function() {
+        const name = this.getAttribute('data-name');
+        openModal(name);
+      });
+    });
+
+    // 모달 배경 클릭 시 닫기
+    document.getElementById('nameModal').addEventListener('click', function(e) {
+      if (e.target === this) {
+        closeModal();
+      }
+    });
+
+    // ESC 키로 모달 닫기
+    document.addEventListener('keydown', function(e) {
+      if (e.key === 'Escape') {
+        closeModal();
+      }
+    });
+  </script>
+  <audio autoplay loop>
+    <source src="m.mp3" type="audio/mpeg">
+  </audio>
+</body>
+</html>
